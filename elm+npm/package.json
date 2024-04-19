@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "mkdir -p dist && elm-live --dir=./dist --hot -- src/Main.elm --output=dist/elm-dev.js --debug",
     "elm": "elm",
+    "format": "scripts/format.sh",
     "test": "echo DAVE ; exit 1"
   },
   "devDependencies": {

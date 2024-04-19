@@ -3,18 +3,29 @@ module Main exposing (main)
 import Browser
 import Html exposing (Html)
 
-type alias Model = {}
 
-type alias Msg = Never
+type alias Model =
+    {}
+
+
+type alias Msg =
+    Never
+
 
 update : Msg -> Model -> Model
-update msg _ = never msg
+update msg _ =
+    never msg
+
 
 view : Model -> Html Msg
-view _ = Html.h1 [] [ Html.text "Hello, World!" ]
+view _ =
+    Html.h1 [] [ Html.text "Hello, World!" ]
+
 
 init : Model
-init = {}
+init =
+    {}
+
 
 main : Program () Model Msg
 main =
