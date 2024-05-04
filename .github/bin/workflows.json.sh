@@ -5,7 +5,11 @@ IFS=$'\n\t'
 git ls-files |
     grep -F / |
     sed -nE 's,^([^./][^/]*)/.*,\1,p' |
-    sort -u
+    sort -u |
+    jq --raw-input --slurp --compact-output '
+        split("\n") |
+        map(select(. != "")) |
+        map("./" + . + "/.github/workflows/ci.yaml")
+    '
 
 # DAVE: ignore unchanged files
-# DAVE: turn into json for matrix: want an array containing ./DIR/.github/workflows/{filename}
