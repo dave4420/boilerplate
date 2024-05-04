@@ -23,4 +23,4 @@ jobs:
       - name: Check npm
         run: |
           (cd elm+npm && npm ci)
-          (cd elm+npm && npm run build)
+          (cd elm+npm && npm test)
