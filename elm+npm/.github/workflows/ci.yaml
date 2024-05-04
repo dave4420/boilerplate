@@ -1,0 +1,26 @@
+---
+name: "elm+npm PR checks"
+
+"on":
+  workflow_call:
+
+jobs:
+  checks:
+    name: Run checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            elm+npm
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          cache-dependency-path: "elm+npm/package-lock.json"
+          node-version-file: "elm+npm/.nvmrc"
+      - name: Check npm
+        run: |
+          (cd elm+npm && npm ci)
+          (cd elm+npm && npm run build)
