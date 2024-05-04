@@ -30,7 +30,6 @@ jobs:
           (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
 
   elm+npm:
-    runs-on: ubuntu-latest
     needs: gather
     if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'elm+npm') }}"
     uses: ./.github/workflows/ci-elm+npm.yaml
