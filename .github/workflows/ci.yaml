@@ -1,0 +1,30 @@
+---
+name: PR checks
+
+"on":
+  push:
+    branches-ignore:
+      - trunk
+    paths-ignore:
+      - "**.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gather:
+    name: Gather information
+    runs-on: ubuntu-latest
+    outputs:
+      workflows: DAVE
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check yaml
+        run: |
+          docker run --rm -i -v $(pwd):/data cytopia/yamllint .
+      - name: Get workflows
+        id: workflows
+        run: |
+          echo "yaml=$(git ls-files | DAVE)" >>"$GITHUB_OUTPUT"
