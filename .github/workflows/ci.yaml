@@ -28,3 +28,12 @@ jobs:
         id: workflows
         run: |
           (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
+
+  delegate:
+    name: Run workflows for sub projects
+    runs-on: ubuntu-latest
+    needs: gather
+    strategy:
+      matrix:
+        workflow: ${{fromJson(needs.gather.outputs.workflows)}}
+    uses: ${{ matrix.workflow }}

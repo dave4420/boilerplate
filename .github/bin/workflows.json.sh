@@ -8,4 +8,4 @@ git ls-files |
     sort -u
 
 # DAVE: ignore unchanged files
-# DAVE: turn into json for matrix
+# DAVE: turn into json for matrix: want an array containing ./DIR/.github/workflows/{filename}
