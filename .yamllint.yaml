@@ -3,3 +3,8 @@ extends: default
 
 ignore:
   - "**/node_modules/**"
+
+rules:
+  line-length:
+    max: 100
+    allow-non-breakable-inline-mappings: true

@@ -17,14 +17,14 @@ jobs:
     name: Gather information
     runs-on: ubuntu-latest
     outputs:
-      workflows: DAVE
+      workflows: ${{ steps.workflows.outputs.workflows }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Check yaml
         run: |
-          docker run --rm -i -v $(pwd):/data cytopia/yamllint .
+          yamllint -s .
       - name: Get workflows
         id: workflows
         run: |
-          echo "yaml=$(git ls-files | DAVE)" >>"$GITHUB_OUTPUT"
+          (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
