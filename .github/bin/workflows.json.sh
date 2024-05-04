@@ -8,8 +8,7 @@ git ls-files |
     sort -u |
     jq --raw-input --slurp --compact-output '
         split("\n") |
-        map(select(. != "")) |
-        map("./" + . + "/.github/workflows/ci.yaml")
+        map(select(. != ""))
     '
 
 # DAVE: ignore unchanged files
