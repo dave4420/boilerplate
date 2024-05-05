@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -exuo pipefail
 IFS=$'\n\t'
 
 base="$(git merge-base ${1-refs/remotes/origin/HEAD} HEAD)"
