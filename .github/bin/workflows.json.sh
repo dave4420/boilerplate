@@ -2,13 +2,13 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-git ls-files |
+base="$(git merge-base ${1-refs/remotes/origin/HEAD} HEAD)"
+
+git diff --name-status --no-renames "$base" |
     grep -F / |
-    sed -nE 's,^([^./][^/]*)/.*,\1,p' |
+    sed -nE 's,^[^\t]+\t([^./][^/]*)/.*,\1,p' |
     sort -u |
     jq --raw-input --slurp --compact-output '
         split("\n") |
         map(select(. != ""))
     '
-
-# DAVE: ignore unchanged files
