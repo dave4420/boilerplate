@@ -21,6 +21,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        # We fetch everything.
+        # We only actually need as far as where we branch off trunk (and I guess
+        # up to trunk's tip as well), but it's not clear how to only fetch that
+        # far.
         with:
           fetch-depth: 0
       - name: Check yaml
