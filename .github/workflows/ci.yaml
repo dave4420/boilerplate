@@ -27,6 +27,7 @@ jobs:
       - name: Get workflows
         id: workflows
         run: |
+          git remote set-head origin -a
           (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
 
   elm_npm:
