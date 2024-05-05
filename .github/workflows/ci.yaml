@@ -35,7 +35,7 @@ jobs:
           git remote set-head origin -a
           (
             printf "workflows=" &&
-            .github/bin/workflows.json.sh origin/"$default_branch"
+            .github/bin/workflows.json.sh
           ) >>"$GITHUB_OUTPUT"
 
   elm_npm:
