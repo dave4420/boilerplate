@@ -36,6 +36,14 @@ jobs:
           git remote set-head origin -a
           (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
 
+  # Job ids must contain only alphanumerics, underscore and hyphen, so no plus sign.
+
+  # Workflows _must_ live under .github/workflows, can't live under
+  # e.g. subproj/.github/workflows.
+
+  # The `uses` field must be statically known, i.e. it can’t use context
+  # and can’t be driven by a matrix.
+
   elm_npm:
     needs: gather
     if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'elm+npm') }}"
