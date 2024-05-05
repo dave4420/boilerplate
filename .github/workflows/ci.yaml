@@ -27,6 +27,8 @@ jobs:
       - name: Get workflows
         id: workflows
         run: |
+          git remote set-head origin -a
+          git fetch --depth=0 origin "${{ github.event.repository.default_branch }}":"${{ github.event.repository.default_branch }}"
           (
             printf "workflows=" &&
             .github/bin/workflows.json.sh "${{ github.event.repository.default_branch }}"
