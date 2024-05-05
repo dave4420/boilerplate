@@ -28,15 +28,9 @@ jobs:
           yamllint -s .
       - name: Get workflows
         id: workflows
-        env:
-          default_branch: ${{ github.event.repository.default_branch }}
         run: |
-          set -x
           git remote set-head origin -a
-          (
-            printf "workflows=" &&
-            .github/bin/workflows.json.sh
-          ) >>"$GITHUB_OUTPUT"
+          (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
 
   elm_npm:
     needs: gather

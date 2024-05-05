@@ -1,10 +1,13 @@
 #!/bin/bash
-set -exuo pipefail
+set -euo pipefail
 IFS=$'\n\t'
 
-base="$(git merge-base ${1-refs/remotes/origin/HEAD} HEAD)"
+target_branch="${1-refs/remotes/origin/HEAD}"
+wip_branch="${2-HEAD}"
 
-git diff --name-status --no-renames "$base" |
+base="$(git merge-base "$target_branch" "$wip_branch")"
+
+git diff --name-status --no-renames "$base" "$wip_branch" |
     grep -F / |
     sed -nE 's,^[^\t]+\t([^./][^/]*)/.*,\1,p' |
     sort -u |
