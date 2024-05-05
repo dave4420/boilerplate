@@ -1,0 +1,50 @@
+---
+name: PR checks
+
+"on":
+  push:
+    branches-ignore:
+      - trunk
+    paths-ignore:
+      - "**.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gather:
+    name: Gather information
+    runs-on: ubuntu-latest
+    outputs:
+      workflows: ${{ steps.workflows.outputs.workflows }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        # We fetch everything.
+        # We only actually need as far as where we branch off trunk (and I guess
+        # up to trunk's tip as well), but it's not clear how to only fetch that
+        # far.
+        with:
+          fetch-depth: 0
+      - name: Check yaml
+        run: |
+          yamllint -s .
+      - name: Get workflows
+        id: workflows
+        run: |
+          git remote set-head origin -a
+          (printf "workflows=" && .github/bin/workflows.json.sh) >>"$GITHUB_OUTPUT"
+
+  # Job ids must contain only alphanumerics, underscore and hyphen, so no plus sign.
+
+  # Workflows _must_ live under .github/workflows, can't live under
+  # e.g. subproj/.github/workflows.
+
+  # The `uses` field must be statically known, i.e. it can’t use context
+  # and can’t be driven by a matrix.
+
+  elm_npm:
+    needs: gather
+    if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'elm+npm') }}"
+    uses: ./.github/workflows/ci-elm+npm.yaml
