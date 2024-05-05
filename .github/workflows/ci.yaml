@@ -32,4 +32,4 @@ jobs:
   elm_npm:
     needs: gather
     if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'elm+npm') }}"
-    uses: ./.github/workflows/ci-elm+npm.yaml
+    uses: ./elm+npm/.github/workflows/ci.yaml
