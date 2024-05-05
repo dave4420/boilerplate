@@ -29,11 +29,11 @@ jobs:
         env:
           default_branch: ${{ github.event.repository.default_branch }}
         run: |
-          git remote set-head origin -a
-          git fetch --depth=1 origin "$default_branch":"$default_branch"
+          set -x
+          git fetch --depth=1 origin "$default_branch"
           (
             printf "workflows=" &&
-            .github/bin/workflows.json.sh "$default_branch"
+            .github/bin/workflows.json.sh origin/"$default_branch"
           ) >>"$GITHUB_OUTPUT"
 
   elm_npm:
