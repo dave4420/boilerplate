@@ -9,8 +9,10 @@
     "test": "scripts/test.sh"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "elm": "^0.19.1-5",
     "elm-format": "^0.8.7",
-    "elm-live": "^4.0.2"
+    "elm-live": "^4.0.2",
+    "nodemon": "^3.1.0"
   }
 }
