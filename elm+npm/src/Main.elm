@@ -36,6 +36,10 @@ subscriptions _ =
     Sub.none
 
 
+
+-- DAVE: fake signin/signout
+
+
 main : Program Flags Model Msg
 main =
     Browser.document
