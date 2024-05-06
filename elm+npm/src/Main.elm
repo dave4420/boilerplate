@@ -1,8 +1,11 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html)
 import View.Page.HomePage as HomePage
+
+
+type alias Flags =
+    ()
 
 
 type alias Model =
@@ -13,25 +16,31 @@ type alias Msg =
     Never
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg _ =
     never msg
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view _ =
     HomePage.view
 
 
-init : Model
-init =
-    {}
+init : Flags -> ( Model, Cmd Msg )
+init _ =
+    ( {}, Cmd.none )
 
 
-main : Program () Model Msg
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
+
+
+main : Program Flags Model Msg
 main =
-    Browser.sandbox
+    Browser.document
         { init = init
         , update = update
         , view = view
+        , subscriptions = subscriptions
         }

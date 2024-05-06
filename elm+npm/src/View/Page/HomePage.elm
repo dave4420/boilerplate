@@ -1,8 +1,11 @@
 module View.Page.HomePage exposing (view)
 
+import Browser
 import Html exposing (..)
 
 
-view : Html m
+view : Browser.Document m
 view =
-    h1 [] [ text "Hello, World!" ]
+    { title = "Home Page"
+    , body = [ h1 [] [ text "Hello, World!" ] ]
+    }
