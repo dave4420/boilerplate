@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html)
+import View.Page.HomePage as HomePage
 
 
 type alias Model =
@@ -19,7 +20,7 @@ update msg _ =
 
 view : Model -> Html Msg
 view _ =
-    Html.h1 [] [ Html.text "Hello, World!" ]
+    HomePage.view
 
 
 init : Model
