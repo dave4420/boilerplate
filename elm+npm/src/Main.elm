@@ -2,7 +2,6 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html)
-
 import View.Page.HomePage as HomePage
 
 
