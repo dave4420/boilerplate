@@ -2,3 +2,5 @@ node_modules
 /elm-stuff
 /dist/**.js
 /dist/**.html
+/dist-cat/**.js
+/dist-cat/**.html
