@@ -15,4 +15,4 @@ staticDocument doc =
 
 
 pages =
-    UiExplorer.firstPage "Home page" (staticDocument HomePage.view)
+    UiExplorer.firstPage "Home page" (staticDocument <| HomePage.view { name = "Alice" })

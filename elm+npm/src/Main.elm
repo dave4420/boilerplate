@@ -9,7 +9,8 @@ type alias Flags =
 
 
 type alias Model =
-    {}
+    { name : String
+    }
 
 
 type alias Msg =
@@ -22,13 +23,16 @@ update msg _ =
 
 
 view : Model -> Browser.Document Msg
-view _ =
-    HomePage.view
+view model =
+    HomePage.view { name = model.name }
 
 
 init : Flags -> ( Model, Cmd Msg )
 init _ =
-    ( {}, Cmd.none )
+    ( { name = "World"
+      }
+    , Cmd.none
+    )
 
 
 subscriptions : Model -> Sub Msg

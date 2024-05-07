@@ -4,8 +4,12 @@ import Browser
 import Html exposing (..)
 
 
-view : Browser.Document m
-view =
+type alias Params =
+    { name : String }
+
+
+view : Params -> Browser.Document m
+view params =
     { title = "Home Page"
-    , body = [ h1 [] [ text "Hello, World!" ] ]
+    , body = [ h1 [] [ text <| "Hello, " ++ params.name ++ "!" ] ]
     }
