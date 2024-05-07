@@ -14,10 +14,7 @@
   <body>
     <pre id="elm"></pre>
 
-    <!-- DAVE: defer both when neither is inline -->
-    <script src="elm.js"></script>
-    <script>
-      var footer = Elm.Main.init({ node: document.getElementById("elm") });
-    </script>
+    <script src="elm.js" defer></script>
+    <script src="ts.js" defer></script>
   </body>
 </html>
