@@ -2,6 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-mkdir -p dist
+find dist -name '*.js' -delete
 
-elm-live --dir=./dist -- src/Main.elm --output=dist/index.html --debug
+elm-live --dir=./dist -- src/Main.elm --output=dist/elm.js --debug
