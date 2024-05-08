@@ -1,51 +1,10 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 import Browser
 import Op.Cause as Cause exposing (Causes)
 import Op.Effect as Effect exposing (Effects)
+import Ports
 import View.Page.HomePage as HomePage
-
-
-port signIn : Effect.SignInParams -> Cmd m
-
-
-port signOut : () -> Cmd m
-
-
-port demandName : String -> Cmd m
-
-
-effectPorts : Effect.Ports Msg
-effectPorts =
-    { auth =
-        { signIn = signIn
-        , signOut = signOut ()
-        , demandName = demandName
-        }
-    }
-
-
-port signedIn : (Cause.SignedInParams -> m) -> Sub m
-
-
-port failedToSignIn : (() -> m) -> Sub m
-
-
-port signedOut : (() -> m) -> Sub m
-
-
-port receiveName : (String -> m) -> Sub m
-
-
-causePorts : Cause.Ports Msg
-causePorts =
-    { auth =
-        { signedIn = signedIn
-        , failedToSignIn = failedToSignIn
-        , signedOut = signedOut
-        , receivedName = receiveName
-        }
-    }
 
 
 type alias Flags =
@@ -92,12 +51,12 @@ subscriptions _ =
 
 publishEffects : ( Model, Effects Msg ) -> ( Model, Cmd Msg )
 publishEffects ( model, effects ) =
-    ( model, Effect.toCmd effectPorts model.effectConfig effects )
+    ( model, Effect.toCmd Ports.effectPorts model.effectConfig effects )
 
 
 publishCauses : Causes Msg -> Sub Msg
 publishCauses causes =
-    Cause.toSub causePorts causes
+    Cause.toSub Ports.causePorts causes
 
 
 main : Program Flags Model Msg
