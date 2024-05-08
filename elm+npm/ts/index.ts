@@ -21,7 +21,7 @@ interface App {
 }
 
 const app = Elm.Main.init({
-  node: document.getElementById("elm"),
+  node: document.getElementById("app"),
   flags: null,
 });
 
