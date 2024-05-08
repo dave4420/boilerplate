@@ -2,15 +2,18 @@
   "private": true,
   "license": "BSD-3-Clause",
   "scripts": {
-    "dev": "mkdir -p dist && elm-live --dir=./dist -- src/Main.elm --output=dist/index.html --debug",
+    "dev": "scripts/dev.sh",
     "dev:cat": "mkdir -p dist-cat && elm-live --port=8001 --dir=./dist-cat --pushstate -- src/Catalogue.elm --output=dist-cat/index.html",
     "elm": "elm",
     "format": "scripts/format.sh",
     "test": "scripts/test.sh"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "elm": "^0.19.1-5",
     "elm-format": "^0.8.7",
-    "elm-live": "^4.0.2"
+    "elm-live": "^4.0.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "strict": true,
+    "target": "es2015"
+  },
+  "include": ["ts/**/*.ts"]
+}

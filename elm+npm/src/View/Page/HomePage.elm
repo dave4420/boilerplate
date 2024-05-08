@@ -1,8 +1,15 @@
 module View.Page.HomePage exposing (view)
 
+import Browser
 import Html exposing (..)
 
 
-view : Html m
-view =
-    h1 [] [ text "Hello, World!" ]
+type alias Params =
+    { name : String }
+
+
+view : Params -> Browser.Document m
+view params =
+    { title = "Home Page"
+    , body = [ h1 [] [ text <| "Hello, " ++ params.name ++ "!" ] ]
+    }

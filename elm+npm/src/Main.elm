@@ -1,37 +1,60 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser
-import Html exposing (Html)
 import View.Page.HomePage as HomePage
 
 
+port demandName : String -> Cmd m
+
+
+port receiveName : (String -> m) -> Sub m
+
+
+type alias Flags =
+    ()
+
+
 type alias Model =
-    {}
+    { name : String
+    }
 
 
-type alias Msg =
-    Never
+type Msg
+    = SetName String
 
 
-update : Msg -> Model -> Model
-update msg _ =
-    never msg
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        SetName newName ->
+            ( { model | name = newName }
+            , Cmd.none
+            )
 
 
-view : Model -> Html Msg
-view _ =
-    HomePage.view
+view : Model -> Browser.Document Msg
+view model =
+    HomePage.view { name = model.name }
 
 
-init : Model
-init =
-    {}
+init : Flags -> ( Model, Cmd Msg )
+init _ =
+    ( { name = "World"
+      }
+    , demandName "Bob"
+    )
 
 
-main : Program () Model Msg
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    receiveName SetName
+
+
+main : Program Flags Model Msg
 main =
-    Browser.sandbox
+    Browser.document
         { init = init
         , update = update
         , view = view
+        , subscriptions = subscriptions
         }
