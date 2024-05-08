@@ -1,7 +1,13 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser
 import View.Page.HomePage as HomePage
+
+
+port demandName : String -> Cmd m
+
+
+port receiveName : (String -> m) -> Sub m
 
 
 type alias Flags =
@@ -13,13 +19,17 @@ type alias Model =
     }
 
 
-type alias Msg =
-    Never
+type Msg
+    = SetName String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg _ =
-    never msg
+update msg model =
+    case msg of
+        SetName newName ->
+            ( { model | name = newName }
+            , Cmd.none
+            )
 
 
 view : Model -> Browser.Document Msg
@@ -31,13 +41,13 @@ init : Flags -> ( Model, Cmd Msg )
 init _ =
     ( { name = "World"
       }
-    , Cmd.none
+    , demandName "Bob"
     )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    receiveName SetName
 
 
 
