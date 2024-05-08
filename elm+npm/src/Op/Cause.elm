@@ -13,6 +13,13 @@ module Op.Cause exposing
 import Op.Cause.Auth as Auth
 
 
+
+--  Causes are like subscriptions (Platform.Sub), except
+--   -  we can introspect on them to write integration tests
+--
+--  I would have called them Coeffects, but that sounds a bit category theory.
+
+
 type Cause m
     = Auth (Auth.Cause m)
 

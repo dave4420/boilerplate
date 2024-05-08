@@ -12,6 +12,12 @@ module Op.Effect exposing
 import Op.Effect.Auth as Auth
 
 
+
+--  Effects are like commands (Platform.Cmd), except
+--   -  we can introspect on them to write integration tests
+--   -  we can provide config at the top level, to avoid prop-drilling
+
+
 type Effect m
     = Auth Auth.Effect
 
