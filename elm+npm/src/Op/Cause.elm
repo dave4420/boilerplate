@@ -38,8 +38,8 @@ toSub ports causes =
     let
         f cause =
             case cause of
-                Auth caus ->
-                    Auth.toSub ports.auth caus
+                Auth kause ->
+                    Auth.toSub ports.auth kause
     in
     causes
         |> List.map f
