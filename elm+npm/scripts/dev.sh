@@ -4,8 +4,8 @@ IFS=$'\n\t'
 
 find dist -name '*.js' -delete
 
-concurrently \
+concurrently --names 'elm,ts' \
     'elm-live --dir=./dist -- src/Main.elm --output=dist/elm.js --debug' \
-    'tsc --watch --outFile ./dist/ts.js'
+    'tsc --watch --preserveWatchOutput --outFile ./dist/ts.js'
 
 # DAVE: confirm whether tsc is bundling libraries
