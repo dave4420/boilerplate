@@ -1,6 +1,7 @@
 port module Main exposing (main)
 
 import Browser
+import Op.Cause as Cause exposing (Causes)
 import Op.Effect as Effect exposing (Effects)
 import View.Page.HomePage as HomePage
 
@@ -14,15 +15,35 @@ port signOut : () -> Cmd m
 port demandName : String -> Cmd m
 
 
-port receiveName : (String -> m) -> Sub m
-
-
 effectPorts : Effect.Ports Msg
 effectPorts =
     { auth =
         { signIn = signIn
         , signOut = signOut ()
         , demandName = demandName
+        }
+    }
+
+
+port signedIn : (Cause.SignedInParams -> m) -> Sub m
+
+
+port failedToSignIn : (() -> m) -> Sub m
+
+
+port signedOut : (() -> m) -> Sub m
+
+
+port receiveName : (String -> m) -> Sub m
+
+
+causePorts : Cause.Ports Msg
+causePorts =
+    { auth =
+        { signedIn = signedIn
+        , failedToSignIn = failedToSignIn
+        , signedOut = signedOut
+        , receivedName = receiveName
         }
     }
 
@@ -64,14 +85,19 @@ init _ =
     )
 
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Causes Msg
 subscriptions _ =
-    receiveName SetName
+    Cause.receivedName SetName
 
 
 publishEffects : ( Model, Effects Msg ) -> ( Model, Cmd Msg )
 publishEffects ( model, effects ) =
     ( model, Effect.toCmd effectPorts model.effectConfig effects )
+
+
+publishCauses : Causes Msg -> Sub Msg
+publishCauses causes =
+    Cause.toSub causePorts causes
 
 
 main : Program Flags Model Msg
@@ -80,5 +106,5 @@ main =
         { init = \flags -> init flags |> publishEffects
         , update = \msg model -> update msg model |> publishEffects
         , view = view
-        , subscriptions = subscriptions
+        , subscriptions = \model -> subscriptions model |> publishCauses
         }
