@@ -20,11 +20,15 @@ pages =
         |> UiExplorer.nextPage "Sign in"
             (staticDocument <|
                 SignInPage.view
-                    { fields =
-                        { emailAddress = "alice@example.com"
-                        , password = "password"
+                    { emailAddress =
+                        { value = "alice@example.com"
+                        , onChange = always ()
+                        }
+                    , password =
+                        { value = "password"
+                        , onChange = always ()
                         }
                     , state = SignInPage.Pristine
-                    , onCheck = always ()
+                    , onCheck = ()
                     }
             )

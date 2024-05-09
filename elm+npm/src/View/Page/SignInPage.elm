@@ -1,19 +1,20 @@
-module View.Page.SignInPage exposing (Fields, Params, State(..), view)
+module View.Page.SignInPage exposing (Field, Params, State(..), view)
 
 import Browser
 import Html exposing (..)
 
 
 type alias Params m =
-    { fields : Fields
+    { emailAddress : Field m
+    , password : Field m
     , state : State
-    , onCheck : Fields -> m
+    , onCheck : m
     }
 
 
-type alias Fields =
-    { emailAddress : String
-    , password : String
+type alias Field m =
+    { value : String
+    , onChange : String -> m
     }
 
 
