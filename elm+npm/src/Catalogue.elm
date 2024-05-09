@@ -4,6 +4,7 @@ import Element
 import Html
 import UiExplorer
 import View.Page.HomePage as HomePage
+import View.Page.SignInPage as SignInPage
 
 
 main =
@@ -16,3 +17,14 @@ staticDocument doc =
 
 pages =
     UiExplorer.firstPage "Home page" (staticDocument <| HomePage.view { name = "Alice" })
+        |> UiExplorer.nextPage "Sign in"
+            (staticDocument <|
+                SignInPage.view
+                    { fields =
+                        { emailAddress = "alice@example.com"
+                        , password = "password"
+                        }
+                    , state = SignInPage.Pristine
+                    , onCheck = always ()
+                    }
+            )
