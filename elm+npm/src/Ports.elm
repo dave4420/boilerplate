@@ -23,7 +23,9 @@ effectPorts =
     }
 
 
-port signedIn : (Cause.SignedInParams -> m) -> Sub m
+port signedIn :
+    (Cause.SignedInParams -> m)
+    -> Sub m -- DAVE: rm
 
 
 port failedToSignIn : (() -> m) -> Sub m
@@ -32,7 +34,9 @@ port failedToSignIn : (() -> m) -> Sub m
 port signedOut : (() -> m) -> Sub m
 
 
-port receiveName : (String -> m) -> Sub m
+port receiveName :
+    (String -> m)
+    -> Sub m -- DAVE: rm
 
 
 causePorts : Cause.Ports m
@@ -44,4 +48,3 @@ causePorts =
         , receivedName = receiveName
         }
     }
-
