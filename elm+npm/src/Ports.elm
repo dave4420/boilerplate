@@ -1,5 +1,6 @@
 port module Ports exposing (causePorts, effectPorts)
 
+import Domain.ActiveUser exposing (TypescriptActiveUser)
 import Op.Cause as Cause
 import Op.Effect as Effect
 
@@ -23,9 +24,10 @@ effectPorts =
     }
 
 
-port signedIn :
-    (Cause.SignedInParams -> m)
-    -> Sub m -- DAVE: rm
+port receivedIdToken : (TypescriptActiveUser -> m) -> Sub m
+
+
+port receivedAuthToken : (String -> m) -> Sub m
 
 
 port failedToSignIn : (() -> m) -> Sub m
@@ -34,17 +36,12 @@ port failedToSignIn : (() -> m) -> Sub m
 port signedOut : (() -> m) -> Sub m
 
 
-port receiveName :
-    (String -> m)
-    -> Sub m -- DAVE: rm
-
-
 causePorts : Cause.Ports m
 causePorts =
     { auth =
-        { signedIn = signedIn
+        { receivedIdToken = receivedIdToken
+        , receivedAuthToken = receivedAuthToken
         , failedToSignIn = failedToSignIn
         , signedOut = signedOut
-        , receivedName = receiveName
         }
     }

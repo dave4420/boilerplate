@@ -8,7 +8,7 @@ module State.Main exposing
     )
 
 import Browser
-import Domain.ActiveUser as ActiveUser exposing (ActiveUser, TypescriptActiveUser)
+import Domain.ActiveUser as ActiveUser exposing (ActiveUser)
 import Op.Cause as Cause exposing (Causes)
 import Op.Effect exposing (Effects)
 import State.App as App
@@ -29,7 +29,7 @@ type alias InsideFields =
 type Msg
     = SignInMsg SignIn.Msg
     | AppMsg App.Msg
-    | ReceivedIdToken TypescriptActiveUser
+    | ReceivedIdToken ActiveUser
     | SignedOut
 
 
@@ -78,13 +78,13 @@ update _ msg model =
                 Outside _ ->
                     ( Inside
                         { app = newApp
-                        , user = ActiveUser.fromTypescript user
+                        , user = user
                         }
                     , []
                     )
 
                 Inside fields ->
-                    ( Inside { fields | user = ActiveUser.fromTypescript user }
+                    ( Inside { fields | user = user }
                     , []
                     )
 
@@ -143,6 +143,6 @@ subscriptions { onMsg } model =
                         { onMsg = onMsg << AppMsg }
                         fields.app
     in
-    Debug.todo "DAVE: Cause.receivedIdToken " (onMsg << ReceivedIdToken)
+    Cause.receivedIdToken (onMsg << ReceivedIdToken)
         ++ Cause.signedOut (onMsg SignedOut)
         ++ fromBelow
