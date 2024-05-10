@@ -17,7 +17,21 @@ type Sub<Payload> = Readonly<{
 
 type AppPorts = Readonly<{
   demandName: Cmd<string>; // DAVE: rm
-  receiveName: Sub<string>;
+  signIn: Cmd<SignInParams>;
+  signOut: Cmd<null>;
+  receivedIdToken: Sub<ActiveUser>;
+  receivedAuthToken: Sub<string>;
+  failedToSignIn: Sub<null>;
+  signedOut: Sub<null>;
+}>;
+
+type SignInParams = Readonly<{
+  emailAddress: string;
+  password: string;
+}>;
+
+type ActiveUser = Readonly<{
+  forename: string;
 }>;
 
 type App = Readonly<{

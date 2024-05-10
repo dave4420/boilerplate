@@ -6,5 +6,5 @@ const app = Elm.Main.init({
 });
 
 app.ports.demandName.subscribe((prefix) => {
-  app.ports.receiveName.send(prefix + "by");
+  //app.ports.receiveName.send(prefix + "by");
 });
