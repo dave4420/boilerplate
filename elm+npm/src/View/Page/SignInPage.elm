@@ -32,7 +32,7 @@ view params =
     , body =
         [ h1 [] [ text "Sign In" ]
         , form [] <|
-            viewField "E-mail address" "text" params.emailAddress
+            viewField "E-mail address" "email" params.emailAddress
                 ++ viewField "Password" "password" params.emailAddress
                 ++ viewButton params
                 ++ viewError params.state
