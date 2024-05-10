@@ -8,6 +8,7 @@ module State.Main exposing
     )
 
 import Browser
+import Domain.ActiveUser as ActiveUser exposing (ActiveUser, TypescriptActiveUser)
 import Op.Cause as Cause exposing (Causes)
 import Op.Effect exposing (Effects)
 import State.App as App
@@ -21,20 +22,14 @@ type Model
 
 type alias InsideFields =
     { app : App.Model
-    , user : User
-    }
-
-
-type alias User =
-    -- DAVE: extract
-    { forename : String
+    , user : ActiveUser
     }
 
 
 type Msg
     = SignInMsg SignIn.Msg
     | AppMsg App.Msg
-    | ReceivedIdToken User
+    | ReceivedIdToken TypescriptActiveUser
     | SignedOut
 
 
@@ -83,13 +78,13 @@ update _ msg model =
                 Outside _ ->
                     ( Inside
                         { app = newApp
-                        , user = user
+                        , user = ActiveUser.fromTypescript user
                         }
                     , []
                     )
 
                 Inside fields ->
-                    ( Inside { fields | user = user }
+                    ( Inside { fields | user = ActiveUser.fromTypescript user }
                     , []
                     )
 
@@ -115,7 +110,7 @@ view context model =
 
         Inside fields ->
             App.view
-                { name = fields.user.forename
+                { name = ActiveUser.forename fields.user
                 }
                 fields.app
 
