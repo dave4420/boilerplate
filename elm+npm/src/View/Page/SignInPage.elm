@@ -35,6 +35,7 @@ view params =
             viewField "E-mail address" "text" params.emailAddress
                 ++ viewField "Password" "password" params.emailAddress
                 ++ viewButton params
+                ++ viewError params.state
         ]
     }
 
@@ -74,3 +75,15 @@ viewButton params =
             ]
         ]
     ]
+
+
+viewError : State -> List (Html m)
+viewError state =
+    case state of
+        Failed errorMessage ->
+            [ p []
+                [ b [] [ text errorMessage ] ]
+            ]
+
+        _ ->
+            []
