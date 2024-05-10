@@ -6,4 +6,4 @@ find dist -name '*.js' -delete
 
 concurrently --names 'elm,ts' \
     'elm-live --dir=./dist -- src/Main.elm --output=dist/elm.js --debug' \
-    'webpack watch'
+    'webpack watch --mode=development'
