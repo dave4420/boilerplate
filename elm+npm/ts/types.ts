@@ -16,7 +16,7 @@ type Sub<Payload> = Readonly<{
 }>;
 
 type AppPorts = Readonly<{
-  demandName: Cmd<string>;
+  demandName: Cmd<string>; // DAVE: rm
   receiveName: Sub<string>;
 }>;
 
