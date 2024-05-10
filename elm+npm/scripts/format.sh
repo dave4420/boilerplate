@@ -12,5 +12,5 @@ xargs --no-run-if-empty elm-format --yes
 
 git diff --name-only $merge_base |
 sed -n 's_^elm+npm/__p' |
-grep '\.ts$' |
+grep '\.(js|ts)$' |
 xargs --no-run-if-empty prettier --write
