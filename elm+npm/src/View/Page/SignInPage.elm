@@ -31,17 +31,17 @@ view params =
     { title = "Sign In"
     , body =
         [ h1 [] [ text "Sign In" ]
-        , form []
-            [ viewField "E-mail address" "text" params.emailAddress
-            , viewField "Password" "password" params.emailAddress
-            ]
+        , form [] <|
+            viewField "E-mail address" "text" params.emailAddress
+                ++ viewField "Password" "password" params.emailAddress
+                ++ viewButton params
         ]
     }
 
 
-viewField : String -> String -> Field m -> Html m
+viewField : String -> String -> Field m -> List (Html m)
 viewField label type_ field =
-    p []
+    [ p []
         [ text <| label ++ " "
         , input
             [ Att.type_ type_
@@ -50,3 +50,27 @@ viewField label type_ field =
             ]
             []
         ]
+    ]
+
+
+viewButton : Params m -> List (Html m)
+viewButton params =
+    let
+        disabled =
+            case params.state of
+                Checking ->
+                    True
+
+                _ ->
+                    False
+    in
+    [ p []
+        [ button
+            [ Att.type_ "button"
+            , Att.disabled disabled
+            , Ev.onClick params.onCheck
+            ]
+            [ text "Sign in"
+            ]
+        ]
+    ]
