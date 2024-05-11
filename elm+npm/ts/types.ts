@@ -4,18 +4,18 @@ declare namespace Elm.Main {
   function init(options: { node?: HTMLElement | null; flags: Flags }): App;
 }
 
-type Flags = null;
+export type Flags = null;
 
-type Cmd<Payload> = Readonly<{
+export type Cmd<Payload> = Readonly<{
   subscribe(callback: (payload: Payload) => void): void;
   unsubscribe(callback: (payload: Payload) => void): void;
 }>;
 
-type Sub<Payload> = Readonly<{
+export type Sub<Payload> = Readonly<{
   send(payload: Payload): void;
 }>;
 
-type AppPorts = Readonly<{
+export type AppPorts = Readonly<{
   demandName: Cmd<string>; // DAVE: rm
   signIn: Cmd<SignInParams>;
   signOut: Cmd<null>;
@@ -25,15 +25,15 @@ type AppPorts = Readonly<{
   signedOut: Sub<null>;
 }>;
 
-type SignInParams = Readonly<{
+export type SignInParams = Readonly<{
   emailAddress: string;
   password: string;
 }>;
 
-type ActiveUser = Readonly<{
+export type ActiveUser = Readonly<{
   forename: string;
 }>;
 
-type App = Readonly<{
+export type App = Readonly<{
   ports: AppPorts;
 }>;
