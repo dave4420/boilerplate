@@ -11,17 +11,11 @@ port signIn : Effect.SignInParams -> Cmd m
 port signOut : () -> Cmd m
 
 
-port demandName :
-    String
-    -> Cmd m -- DAVE: rm
-
-
 effectPorts : Effect.Ports m
 effectPorts =
     { auth =
         { signIn = signIn
         , signOut = signOut ()
-        , demandName = demandName
         }
     }
 

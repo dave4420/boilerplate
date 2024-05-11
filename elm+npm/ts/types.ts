@@ -12,7 +12,6 @@ export type Sub<Payload> = Readonly<{
 }>;
 
 export type Ports = Readonly<{
-  demandName: Cmd<string>; // DAVE: rm
   signIn: Cmd<SignInParams>;
   signOut: Cmd<null>;
   receivedIdToken: Sub<ActiveUser>;

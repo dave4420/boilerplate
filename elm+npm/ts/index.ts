@@ -16,7 +16,3 @@ const app = Elm.Main.init({
 });
 
 initAuth(app.ports);
-
-app.ports.demandName.subscribe((prefix: string) => {
-  //app.ports.receiveName.send(prefix + "by");
-});
