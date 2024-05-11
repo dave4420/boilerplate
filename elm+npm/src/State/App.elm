@@ -23,15 +23,18 @@ update msg model =
             )
 
 
-type alias ViewContext =
-    { name : String
+type alias ViewContext m =
+    { onMsg : Msg -> m
+    , name : String
     }
 
 
-view : ViewContext -> Model -> Browser.Document m
+view : ViewContext m -> Model -> Browser.Document m
 view context _ =
-    -- DAVE: needs to include SignOut button
-    HomePage.view { name = context.name }
+    HomePage.view
+        { name = context.name
+        , onSignOut = context.onMsg SignOut
+        }
 
 
 init : Model

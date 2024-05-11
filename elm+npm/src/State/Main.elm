@@ -111,6 +111,7 @@ view context model =
         Inside fields ->
             App.view
                 { name = ActiveUser.forename fields.user
+                , onMsg = context.onMsg << AppMsg
                 }
                 fields.app
 
