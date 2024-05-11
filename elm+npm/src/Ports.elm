@@ -29,7 +29,7 @@ effectPorts =
 port receivedIdToken : (TypescriptActiveUser -> m) -> Sub m
 
 
-port receivedAuthToken : (String -> m) -> Sub m
+port receivedAccessToken : (String -> m) -> Sub m
 
 
 port failedToSignIn : (() -> m) -> Sub m
@@ -42,7 +42,7 @@ causePorts : Cause.Ports m
 causePorts =
     { auth =
         { receivedIdToken = receivedIdToken
-        , receivedAuthToken = receivedAuthToken
+        , receivedAccessToken = receivedAccessToken
         , failedToSignIn = failedToSignIn
         , signedOut = signedOut
         }

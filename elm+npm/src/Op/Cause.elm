@@ -3,14 +3,14 @@ module Op.Cause exposing
     , Causes
     , Ports
     , failedToSignIn
-    , receivedAuthToken
+    , receivedAccessToken
     , receivedIdToken
     , signedOut
     , toSub
     )
 
 import Domain.ActiveUser exposing (ActiveUser)
-import Op.AuthToken exposing (AuthToken)
+import Op.AccessToken exposing (AccessToken)
 import Op.Cause.Auth as Auth
 
 
@@ -61,9 +61,9 @@ receivedIdToken f =
     Auth.ReceivedIdToken f |> auth
 
 
-receivedAuthToken : (AuthToken -> m) -> Causes m
-receivedAuthToken f =
-    Auth.ReceivedAuthToken f |> auth
+receivedAccessToken : (AccessToken -> m) -> Causes m
+receivedAccessToken f =
+    Auth.ReceivedAccessToken f |> auth
 
 
 failedToSignIn : m -> Causes m

@@ -40,7 +40,7 @@ export const initAuth = (ports: Ports): void => {
     }
     currentUser = user;
     ports.receivedIdToken.send(user.id);
-    ports.receivedAuthToken.send(user.accessToken);
+    ports.receivedAccessToken.send(user.accessToken);
   });
 
   ports.signOut.subscribe(() => {
