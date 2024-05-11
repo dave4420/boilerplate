@@ -4,7 +4,7 @@ import Browser
 import Op.Cause as Cause exposing (Causes)
 import Op.Effect as Effect exposing (Effects)
 import Ports
-import View.Page.HomePage as HomePage
+import State.Main as Main
 
 
 type alias Flags =
@@ -12,41 +12,47 @@ type alias Flags =
 
 
 type alias Model =
-    { name : String
+    { main : Main.Model
     , effectConfig : Effect.Config
     }
 
 
-type Msg
-    = SetName String
+type alias Msg =
+    Main.Msg
 
 
 update : Msg -> Model -> ( Model, Effects Msg )
 update msg model =
-    case msg of
-        SetName newName ->
-            ( { model | name = newName }
-            , []
-            )
+    let
+        ( newMain, effects ) =
+            Main.update { onMsg = identity } msg model.main
+    in
+    ( { model | main = newMain }
+    , effects
+    )
 
 
 view : Model -> Browser.Document Msg
 view model =
-    HomePage.view { name = model.name }
+    Main.view { onMsg = identity } model.main
 
 
 init : Flags -> ( Model, Effects Msg )
 init _ =
-    ( { name = "World"
+    let
+        ( newMain, effects ) =
+            Main.init
+    in
+    ( { main = newMain
       , effectConfig = {}
       }
-    , Effect.demandName "Bob"
+    , effects
     )
 
 
 subscriptions : Model -> Causes Msg
-subscriptions _ =
-    Cause.receivedName SetName
+subscriptions model =
+    Main.subscriptions { onMsg = identity } model.main
 
 
 publishEffects : ( Model, Effects Msg ) -> ( Model, Cmd Msg )

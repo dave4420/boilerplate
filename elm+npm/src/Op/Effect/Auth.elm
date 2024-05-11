@@ -4,7 +4,6 @@ module Op.Effect.Auth exposing (..)
 type Effect
     = SignIn SignInParams
     | SignOut
-    | DemandName String
 
 
 type alias SignInParams =
@@ -16,7 +15,6 @@ type alias SignInParams =
 type alias Ports m =
     { signIn : SignInParams -> Cmd m
     , signOut : Cmd m
-    , demandName : String -> Cmd m
     }
 
 
@@ -28,6 +26,3 @@ toCmd ports effect =
 
         SignOut ->
             ports.signOut
-
-        DemandName name ->
-            ports.demandName name

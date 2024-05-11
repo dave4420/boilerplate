@@ -1,25 +1,34 @@
 // types adapted from elm-ts-interop
 
-declare namespace Elm.Main {
-  function init(options: { node?: HTMLElement | null; flags: Flags }): App;
-}
+export type Flags = null;
 
-type Flags = null;
-
-type Cmd<Payload> = Readonly<{
+export type Cmd<Payload> = Readonly<{
   subscribe(callback: (payload: Payload) => void): void;
   unsubscribe(callback: (payload: Payload) => void): void;
 }>;
 
-type Sub<Payload> = Readonly<{
+export type Sub<Payload> = Readonly<{
   send(payload: Payload): void;
 }>;
 
-type AppPorts = Readonly<{
-  demandName: Cmd<string>;
-  receiveName: Sub<string>;
+export type Ports = Readonly<{
+  signIn: Cmd<SignInParams>;
+  signOut: Cmd<null>;
+  receivedIdToken: Sub<ActiveUser>;
+  receivedAccessToken: Sub<string>;
+  failedToSignIn: Sub<null>;
+  signedOut: Sub<null>;
 }>;
 
-type App = Readonly<{
-  ports: AppPorts;
+export type SignInParams = Readonly<{
+  emailAddress: string;
+  password: string;
+}>;
+
+export type ActiveUser = Readonly<{
+  forename: string;
+}>;
+
+export type App = Readonly<{
+  ports: Ports;
 }>;

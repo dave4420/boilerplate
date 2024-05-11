@@ -2,14 +2,15 @@ module Op.Cause exposing
     ( Cause
     , Causes
     , Ports
-    , SignedInParams
     , failedToSignIn
-    , receivedName
-    , signedIn
+    , receivedAccessToken
+    , receivedIdToken
     , signedOut
     , toSub
     )
 
+import Domain.ActiveUser exposing (ActiveUser)
+import Op.AccessToken exposing (AccessToken)
 import Op.Cause.Auth as Auth
 
 
@@ -55,13 +56,14 @@ auth =
     Auth >> List.singleton
 
 
-type alias SignedInParams =
-    Auth.SignedInParams
+receivedIdToken : (ActiveUser -> m) -> Causes m
+receivedIdToken f =
+    Auth.ReceivedIdToken f |> auth
 
 
-signedIn : (SignedInParams -> m) -> Causes m
-signedIn f =
-    Auth.SignedIn f |> auth
+receivedAccessToken : (AccessToken -> m) -> Causes m
+receivedAccessToken f =
+    Auth.ReceivedAccessToken f |> auth
 
 
 failedToSignIn : m -> Causes m
@@ -72,8 +74,3 @@ failedToSignIn m =
 signedOut : m -> Causes m
 signedOut m =
     Auth.SignedOut m |> auth
-
-
-receivedName : (String -> m) -> Causes m
-receivedName f =
-    Auth.ReceivedName f |> auth

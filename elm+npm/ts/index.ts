@@ -1,10 +1,18 @@
-import "./types";
+import { initAuth } from "./auth";
+import { Flags, App } from "./types";
+
+export declare namespace Elm {
+  export namespace Main {
+    export function init(options: {
+      node?: HTMLElement | null;
+      flags: Flags;
+    }): App;
+  }
+}
 
 const app = Elm.Main.init({
   node: document.getElementById("app"),
   flags: null,
 });
 
-app.ports.demandName.subscribe((prefix) => {
-  app.ports.receiveName.send(prefix + "by");
-});
+initAuth(app.ports);

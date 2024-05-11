@@ -3,7 +3,6 @@ module Op.Effect exposing
     , Effects
     , Ports
     , SignInParams
-    , demandName
     , signIn
     , signOut
     , toCmd
@@ -69,8 +68,3 @@ signIn params =
 signOut : Effects m
 signOut =
     Auth.SignOut |> auth
-
-
-demandName : String -> Effects m
-demandName name =
-    Auth.DemandName name |> auth
