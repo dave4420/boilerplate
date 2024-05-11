@@ -33,7 +33,7 @@ view params =
         [ h1 [] [ text "Sign In" ]
         , form [] <|
             viewField "E-mail address" "email" params.emailAddress
-                ++ viewField "Password" "password" params.emailAddress
+                ++ viewField "Password" "password" params.password
                 ++ viewButton params
                 ++ viewError params.state
         ]
