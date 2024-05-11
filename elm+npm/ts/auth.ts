@@ -1,3 +1,3 @@
-import { AppPorts } from "./types";
+import { Ports } from "./types";
 
-export const initAuth = (ports: AppPorts): void => {};
+export const initAuth = (ports: Ports): void => {};

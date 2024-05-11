@@ -1,7 +1,12 @@
 // types adapted from elm-ts-interop
 
-declare namespace Elm.Main {
-  function init(options: { node?: HTMLElement | null; flags: Flags }): App;
+export namespace Elm {
+  export namespace Main {
+    export declare function init(options: {
+      node?: HTMLElement | null;
+      flags: Flags;
+    }): App;
+  }
 }
 
 export type Flags = null;
@@ -15,7 +20,7 @@ export type Sub<Payload> = Readonly<{
   send(payload: Payload): void;
 }>;
 
-export type AppPorts = Readonly<{
+export type Ports = Readonly<{
   demandName: Cmd<string>; // DAVE: rm
   signIn: Cmd<SignInParams>;
   signOut: Cmd<null>;
@@ -35,5 +40,5 @@ export type ActiveUser = Readonly<{
 }>;
 
 export type App = Readonly<{
-  ports: AppPorts;
+  ports: Ports;
 }>;

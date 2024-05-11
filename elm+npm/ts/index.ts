@@ -1,4 +1,4 @@
-import "./types";
+import { Elm } from "./types";
 import { initAuth } from "./auth";
 
 const app = Elm.Main.init({
@@ -8,6 +8,6 @@ const app = Elm.Main.init({
 
 initAuth(app.ports);
 
-app.ports.demandName.subscribe((prefix) => {
+app.ports.demandName.subscribe((prefix: string) => {
   //app.ports.receiveName.send(prefix + "by");
 });
