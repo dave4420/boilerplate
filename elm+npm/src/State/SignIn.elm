@@ -10,7 +10,7 @@ module State.SignIn exposing
 import Browser
 import Op.Cause as Cause exposing (Causes)
 import Op.Effect as Effect exposing (Effects)
-import View.Page.SignInPage as View
+import View.Screen.SignInScreen as SignIn
 
 
 type Model
@@ -71,7 +71,7 @@ type alias ViewContext m =
 
 view : ViewContext m -> Model -> Browser.Document m
 view { onMsg } (Model fields) =
-    View.view
+    SignIn.view
         { emailAddress =
             { value = fields.emailAddress
             , onChange = onMsg << SetEmailAddress
@@ -83,13 +83,13 @@ view { onMsg } (Model fields) =
         , state =
             case fields.state of
                 Pristine ->
-                    View.Pristine
+                    SignIn.Pristine
 
                 Checking ->
-                    View.Checking
+                    SignIn.Checking
 
                 Failed ->
-                    View.Failed "E-mail address or password is wrong"
+                    SignIn.Failed "E-mail address or password is wrong"
         , onCheck = onMsg SignInRequested
         }
 

@@ -3,7 +3,7 @@ module Catalogue exposing (main)
 import Catalogue.SignIn as SignIn
 import Catalogue.Util exposing (..)
 import UiExplorer
-import View.Page.HomePage as HomePage
+import View.Screen.HomeScreen as HomeScreen
 
 
 main =
@@ -13,7 +13,7 @@ main =
 pages =
     UiExplorer.firstPage "Home page"
         (staticDocument <|
-            HomePage.view
+            HomeScreen.view
                 { name = "Alice"
                 , onSignOut = ()
                 }
