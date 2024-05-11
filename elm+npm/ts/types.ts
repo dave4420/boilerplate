@@ -1,14 +1,5 @@
 // types adapted from elm-ts-interop
 
-export namespace Elm {
-  export namespace Main {
-    export declare function init(options: {
-      node?: HTMLElement | null;
-      flags: Flags;
-    }): App;
-  }
-}
-
 export type Flags = null;
 
 export type Cmd<Payload> = Readonly<{

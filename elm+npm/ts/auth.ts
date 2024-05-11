@@ -1,4 +1,4 @@
-import { Ports, ActiveUser } from "./types";
+import { ActiveUser, Ports } from "./types";
 
 type UserEntry = Readonly<{
   password: string;
