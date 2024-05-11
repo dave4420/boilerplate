@@ -3,7 +3,7 @@ module State.App exposing (..)
 import Browser
 import Op.Cause exposing (Causes)
 import Op.Effect as Effect exposing (Effects)
-import View.Page.HomePage as HomePage
+import View.Screen.HomeScreen as HomeScreen
 
 
 type Model
@@ -31,7 +31,7 @@ type alias ViewContext m =
 
 view : ViewContext m -> Model -> Browser.Document m
 view context _ =
-    HomePage.view
+    HomeScreen.view
         { name = context.name
         , onSignOut = context.onMsg SignOut
         }

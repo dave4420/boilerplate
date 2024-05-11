@@ -1,4 +1,4 @@
-module View.Page.SignInPage exposing (Field, Params, State(..), view)
+module View.Screen.SignInScreen exposing (Field, Params, State(..), view)
 
 import Browser
 import Html exposing (..)

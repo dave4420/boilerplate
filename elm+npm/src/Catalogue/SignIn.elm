@@ -2,12 +2,12 @@ module Catalogue.SignIn exposing (pages)
 
 import Catalogue.Util exposing (..)
 import UiExplorer
-import View.Page.SignInPage as SignInPage
+import View.Screen.SignInScreen as SignInScreen
 
 
 page state =
     staticDocument <|
-        SignInPage.view
+        SignInScreen.view
             { emailAddress =
                 { value = "alice@example.com"
                 , onChange = always ()
@@ -22,6 +22,6 @@ page state =
 
 
 pages =
-    UiExplorer.nextPage "Pristine" (page SignInPage.Pristine)
-        >> UiExplorer.nextPage "Checking" (page SignInPage.Checking)
-        >> UiExplorer.nextPage "Failed" (page <| SignInPage.Failed "No access for you!")
+    UiExplorer.nextPage "Pristine" (page SignInScreen.Pristine)
+        >> UiExplorer.nextPage "Checking" (page SignInScreen.Checking)
+        >> UiExplorer.nextPage "Failed" (page <| SignInScreen.Failed "No access for you!")
