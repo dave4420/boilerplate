@@ -25,7 +25,7 @@ export type Ports = Readonly<{
   signIn: Cmd<SignInParams>;
   signOut: Cmd<null>;
   receivedIdToken: Sub<ActiveUser>;
-  receivedAuthToken: Sub<string>;
+  receivedAuthToken: Sub<string>; // DAVE: rename to receivedAccessToken
   failedToSignIn: Sub<null>;
   signedOut: Sub<null>;
 }>;
