@@ -11,5 +11,11 @@ main =
 
 
 pages =
-    UiExplorer.firstPage "Home page" (staticDocument <| HomePage.view { name = "Alice" })
+    UiExplorer.firstPage "Home page"
+        (staticDocument <|
+            HomePage.view
+                { name = "Alice"
+                , onSignOut = ()
+                }
+        )
         |> UiExplorer.groupPages "Sign in" SignIn.pages
