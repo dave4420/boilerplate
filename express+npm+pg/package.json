@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "test": "echo DAVE && false"
+  }
+}
