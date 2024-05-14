@@ -2,4 +2,4 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-ts-node src/index.ts | pino-pretty
+nodemon --exec ts-node src/index.ts | pino-pretty
