@@ -31,6 +31,7 @@ components:
 paths:
   /stuff/{thingId}:
     get:
+      operationId: GetThing
       summary: Get a thing
       description: |
         Get a thing from the database (this is in markdown)
