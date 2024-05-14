@@ -3,5 +3,9 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "test": "echo DAVE && false"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
