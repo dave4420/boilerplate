@@ -1,0 +1,26 @@
+---
+name: "express+npm+pg PR checks"
+
+"on":
+  workflow_call:
+
+jobs:
+  checks:
+    name: Run checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            express+npm+pg
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          cache-dependency-path: "express+npm+pg/package-lock.json"
+          node-version-file: "express+npm+pg/.nvmrc"
+      - name: Check npm
+        run: |
+          (cd express+npm+pg && npm ci)
+          (cd express+npm+pg && npm test)
