@@ -1,15 +1,13 @@
 import pino from "pino";
+import { startApp } from "./app";
 
 const log = pino();
 
-type T = {
-  a: number;
-  b: string;
-};
+const app = startApp(log);
 
-const t: T = {
-  a: 1,
-  b: "hello",
-};
-
-log.info({ t }, "Hello");
+["SIGTERM", "SIGINT"].forEach((signal) => {
+  process.on(signal, () => {
+    log.info(`${signal} received: closing server`);
+    app.shutdown();
+  });
+});
