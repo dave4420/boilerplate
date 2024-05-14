@@ -11,4 +11,14 @@ export default defineConfig({
       client: "zod",
     },
   },
+  health: {
+    input: {
+      target: "./health.openapi.yaml",
+      // DAVE: enable validation here
+    },
+    output: {
+      target: "./src/gen/openapi/health.ts",
+      client: "zod",
+    },
+  },
 });

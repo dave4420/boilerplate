@@ -1,14 +1,16 @@
 import { Logger } from "pino";
 import express from "express";
 import { Request, Response } from "express";
+import { getHealthResponse } from "./gen/openapi/health";
 
 export interface App {
   shutdown(): void;
 }
 
 const healthCheckEndpoint = async (req: Request, res: Response) => {
-  res.status(200);
-  res.json({ status: "ok" });
+  const resp = { status: "ok" };
+  getHealthResponse.parse(resp);
+  res.json(resp);
 };
 
 export const startApp = (log: Logger): App => {

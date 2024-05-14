@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: Healthcheck API
+  description: Healthcheck for Kubernetes etc
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+components:
+  schemas:
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+paths:
+  /health:
+    get:
+      operationId: GetHealth
+      summary: Get service health status
+      description: |
+        Get the health status of the application
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+        "500":
+          description: Not OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
