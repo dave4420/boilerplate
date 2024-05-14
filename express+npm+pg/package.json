@@ -2,6 +2,7 @@
   "private": true,
   "license": "BSD-3-Clause",
   "scripts": {
+    "dev": "ts-node src/index.ts",
     "test": "echo DAVE && false"
   },
   "devDependencies": {
