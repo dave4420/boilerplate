@@ -7,7 +7,7 @@ export default defineConfig({
       // DAVE: enable validation here
     },
     output: {
-      target: "./src/gen/my-openapi-types.ts",
+      target: "./src/gen/openapi/my.ts",
       client: "zod",
     },
   },
