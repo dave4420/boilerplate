@@ -1,3 +1,7 @@
+import pino from "pino";
+
+const log = pino();
+
 type T = {
   a: number;
   b: string;
@@ -8,4 +12,4 @@ const t: T = {
   b: "hello",
 };
 
-console.log("Hello", { t });
+log.info({ t }, "Hello");

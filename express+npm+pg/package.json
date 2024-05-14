@@ -2,12 +2,16 @@
   "private": true,
   "license": "BSD-3-Clause",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "scripts/dev.sh",
     "test": "echo DAVE && false"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
+    "pino-pretty": "^11.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "pino": "^9.1.0"
   }
 }
