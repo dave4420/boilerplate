@@ -1,4 +1,5 @@
 import { Logger } from "pino";
+import pinoHttp from "pino-http";
 import express from "express";
 import { Request, Response } from "express";
 import { getHealthResponse } from "./gen/openapi/health";
@@ -17,10 +18,11 @@ export const startApp = (log: Logger): App => {
   log.info("Starting server...");
 
   const routes = express();
-  const port = parseInt(process.env.PORT ?? "3000", 10);
+  routes.use(pinoHttp({ logger: log }));
 
   routes.get("/health-check", healthCheckEndpoint);
 
+  const port = parseInt(process.env.PORT ?? "3000", 10);
   const server = routes.listen(port, () => {
     log.info(`Server is running at http://localhost:${port}`);
   });
