@@ -3,7 +3,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "dev": "scripts/dev.sh",
-    "test": "echo DAVE && false"
+    "test": "scripts/test.sh"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
