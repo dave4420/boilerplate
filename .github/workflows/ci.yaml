@@ -48,3 +48,8 @@ jobs:
     needs: gather
     if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'elm+npm') }}"
     uses: ./.github/workflows/ci-elm+npm.yaml
+
+  express_npm_pg:
+    needs: gather
+    if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'express+npm+pg') }}"
+    uses: ./.github/workflows/ci-express+npm+pg.yaml
