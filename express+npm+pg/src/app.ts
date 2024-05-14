@@ -10,7 +10,7 @@ export interface App {
 
 const healthCheckEndpoint = async (req: Request, res: Response) => {
   const resp = { status: "ok" };
-  getHealthResponse.parse(resp);
+  getHealthResponse.parse(resp); // DAVE: ensure exceptions are logged and result in a 500
   res.json(resp);
 };
 
