@@ -4,6 +4,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { getHealthResponse } from "./gen/openapi/health";
+import { myApiRoutes } from "./my-api/index";
 
 export interface App {
   shutdown(): void;
@@ -24,6 +25,9 @@ export const startApp = (log: Logger): App => {
   routes.use(pinoHttp({ logger: log }));
 
   routes.get("/health-check", healthCheckEndpoint);
+
+  routes.use("/my-api", myApiRoutes(log));
+  // DAVE: work out why the routes in my-api/index.ts are not being used at runtime.
 
   const port = parseInt(process.env.PORT ?? "3000", 10);
   const server = routes.listen(port, () => {
