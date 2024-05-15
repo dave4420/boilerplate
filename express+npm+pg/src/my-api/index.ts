@@ -14,7 +14,7 @@ const getThing = (log: Logger) =>
 export const myApiRoutes = (log: Logger): express.Router => {
   const routes = express.Router();
 
-  routes.get("/stuff", getThing(log));
+  routes.get("/stuff/:thingId", getThing(log));
 
   return routes;
 };

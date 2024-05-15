@@ -27,7 +27,6 @@ export const startApp = (log: Logger): App => {
   routes.get("/health-check", healthCheckEndpoint);
 
   routes.use("/my-api", myApiRoutes(log));
-  // DAVE: work out why the routes in my-api/index.ts are not being used at runtime.
 
   const port = parseInt(process.env.PORT ?? "3000", 10);
   const server = routes.listen(port, () => {
