@@ -37,4 +37,14 @@ docker logs -f --since 1m pg 2>&1 |
         }
     ' && printf 'log something\n' >/dev/tcp/localhost/$PGPORT)
 
+docker run \
+    -v "$PWD"/migrations:/migrations \
+    --network host \
+    --name migrate \
+    --rm \
+    migrate/migrate \
+        -path=/migrations/ \
+        -database postgres://$PGUSER:$PGPASSWORD@localhost:$PGPORT/$PGDATABASE?sslmode=disable \
+        up
+
 "${@:-$SHELL}"
