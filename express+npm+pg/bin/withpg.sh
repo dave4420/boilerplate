@@ -1,6 +1,7 @@
 #!/bin/bash
-set -euo pipefail
+set -eu
 IFS=$'\n\t'
+# no -o pipefail because `docker logs` will write to a broken pipe
 
 source "$(dirname "$0")/pg.inc.sh"
 
@@ -22,6 +23,18 @@ docker run \
 # Pick a version that matches what you have in production.
 # Alpine chosen purely because the image is smaller.
 
-# DAVE: delay until server is ready to accept connections
+# PG starts, stops, then starts again, so waiting for it to accept
+# connections isn't good enough — it might be about to shutdown before
+# starting again. We resort to log scraping.
+# https://github.com/docker-library/postgres/issues/146
+docker logs -f --since 1m pg 2>&1 |
+    (perl -e '
+        while (<>) {
+            last if /.*PostgreSQL init process complete; ready for start up.*/;
+        }
+        while (<>) {
+            last if /.*database system is ready to accept connections.*/;
+        }
+    ' && printf 'log something\n' >/dev/tcp/localhost/$PGPORT)
 
 "${@:-$SHELL}"
