@@ -1,3 +1,4 @@
+---
 extends: ["spectral:oas"]
 rules:
   info-contact: false # Change this for customer-facing APIs
