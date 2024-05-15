@@ -1,6 +1,7 @@
 import { Logger } from "pino";
 import pinoHttp from "pino-http";
 import express from "express";
+import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { getHealthResponse } from "./gen/openapi/health";
 
@@ -8,11 +9,13 @@ export interface App {
   shutdown(): void;
 }
 
-const healthCheckEndpoint = async (req: Request, res: Response) => {
-  const resp = { status: "ok" };
-  getHealthResponse.parse(resp); // DAVE: ensure exceptions are logged and result in a 500
-  res.json(resp);
-};
+const healthCheckEndpoint = asyncHandler(
+  async (req: Request, res: Response) => {
+    const resp = { status: "ok" };
+    getHealthResponse.parse(resp);
+    res.json(resp);
+  }
+);
 
 export const startApp = (log: Logger): App => {
   log.info("Starting server...");
