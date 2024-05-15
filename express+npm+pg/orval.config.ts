@@ -4,7 +4,7 @@ export default defineConfig({
   my: {
     input: {
       target: "./my.openapi.yaml",
-      // DAVE: enable validation here
+      validation: true,
     },
     output: {
       target: "./src/gen/openapi/my.ts",
@@ -14,7 +14,7 @@ export default defineConfig({
   health: {
     input: {
       target: "./health.openapi.yaml",
-      // DAVE: enable validation here
+      validation: true,
     },
     output: {
       target: "./src/gen/openapi/health.ts",
