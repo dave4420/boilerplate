@@ -1,0 +1,4 @@
+extends: ["spectral:oas"]
+rules:
+  info-contact: false # Change this for customer-facing APIs
+  operation-tags: false # Change this for APIs with many endpoints and published documentation
