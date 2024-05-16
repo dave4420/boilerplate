@@ -51,6 +51,31 @@ describe("things", () => {
       expect(actualThings).toEqual([]);
     }));
 
+  it("can overwrite a thing", () =>
+    withPg(async (db) => {
+      // given
+      const thingId: Thing.Id = "4";
+      const thing1: Thing = {
+        thingId,
+        name: "carrot",
+        quantity: 3,
+      };
+      const thing2: Thing = {
+        thingId,
+        name: "doughnut",
+        quantity: 5,
+      };
+      const expectedThings = [thing2];
+
+      // when
+      await db.saveThing(thing1);
+      await db.saveThing(thing2);
+      const actualThings = await db.getThing(thingId);
+
+      // then
+      expect(actualThings).toEqual(expectedThings);
+    }));
+
   // DAVE: add test case for save overwriting previous save
   // DAVE: add test cases for when_created/when_updated
 });
