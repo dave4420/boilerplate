@@ -22,6 +22,7 @@ export interface Database {
 export const pg = async (): Promise<Database> => {
   const db = new Client();
   await db.connect();
+
   return {
     close: async () => await db.end(),
 
