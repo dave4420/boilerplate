@@ -76,6 +76,5 @@ describe("things", () => {
       expect(actualThings).toEqual(expectedThings);
     }));
 
-  // DAVE: add test case for save overwriting previous save
   // DAVE: add test cases for when_created/when_updated
 });

@@ -31,6 +31,8 @@ export const pg = async (): Promise<Database> => {
         text: `
             INSERT INTO things (thing_id, name, quantity)
             VALUES ($1, $2, $3)
+            ON CONFLICT (thing_id) DO UPDATE
+            SET name = $2, quantity = $3
         `,
         values: [thing.thingId, thing.name, thing.quantity],
       });
