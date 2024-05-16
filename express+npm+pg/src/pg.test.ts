@@ -50,4 +50,7 @@ describe("things", () => {
       // then
       expect(actualThings).toEqual([]);
     }));
+
+  // DAVE: add test case for save overwriting previous save
+  // DAVE: add test cases for when_created/when_updated
 });

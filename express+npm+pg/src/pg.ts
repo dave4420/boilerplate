@@ -25,9 +25,46 @@ export const pg = async (): Promise<Database> => {
   return {
     close: async () => await db.end(),
 
-    saveThing: async (thing) => {},
-    getThing: async (thingId) => [],
-    deleteThing: async (thingId) => {},
+    saveThing: async (thing) => {
+      await db.query({
+        text: `
+            INSERT INTO things (thing_id, name, quantity)
+            VALUES ($1, $2, $3)
+        `,
+        values: [thing.thingId, thing.name, thing.quantity],
+      });
+    },
+
+    getThing: async (thingId) => {
+      const { rows } = await db.query({
+        text: `
+                SELECT name, quantity
+                FROM things
+                WHERE thing_id = $1
+            `,
+        values: [thingId],
+      });
+      if (rows.length === 0) {
+        return [];
+      }
+      return [
+        {
+          thingId,
+          name: rows[0].name,
+          quantity: rows[0].quantity,
+        },
+      ];
+    },
+
+    deleteThing: async (thingId) => {
+      await db.query({
+        text: `
+                DELETE FROM things
+                WHERE thing_id = $1
+            `,
+        values: [thingId],
+      });
+    },
   };
 };
 
