@@ -1,3 +1,5 @@
+import { Client } from "pg";
+
 export type Thing = Readonly<{
   thingId: Thing.Id;
   name: string;
@@ -18,8 +20,10 @@ export interface Database {
 }
 
 export const pg = async (): Promise<Database> => {
+  const db = new Client();
+  await db.connect();
   return {
-    close: async () => {},
+    close: async () => await db.end(),
 
     saveThing: async (thing) => {},
     getThing: async (thingId) => [],
