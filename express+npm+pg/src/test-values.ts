@@ -3,6 +3,18 @@ import * as uuid from "uuid";
 
 import { Thing } from "./pg";
 
+// Produce random but deterministic values for use in tests.
+
+// These are NOT for property testing (create proper generators for that).
+
+// These are for integration tests that need arbitrary values. We clear
+// the database between each test run, but not between individual tests.
+// The values returned here are based on the test name, and how many
+// values the test has requested. This should result in different test
+// cases getting different values (in particular: different ids), but
+// the same test case repeatedly getting the same values, which helps
+// when trying to work out why it’s gone red.
+
 const given = new Map<string, number>();
 
 const entropy = (): string => {
