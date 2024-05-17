@@ -1,4 +1,7 @@
 import { Client } from "pg";
+import uuid from "uuid";
+
+import { branded, Branded } from "./branding";
 
 export type Thing = Readonly<{
   thingId: Thing.Id;
@@ -7,8 +10,9 @@ export type Thing = Readonly<{
 }>;
 
 export namespace Thing {
-  export type Id = string; // DAVE: make it branded
-  export const idOrNull = (raw: string): Id | null => raw; // DAVE: confirm it's a UUID
+  export type Id = Branded<string, Thing>;
+  export const idOrNull = (raw: string): Id | null =>
+    uuid.validate(raw) ? branded(raw.toLowerCase()) : null;
 }
 
 export interface Database {

@@ -1,10 +1,11 @@
 import { withPg, Thing } from "./pg";
+import { randomThingId } from "./test-values";
 
 describe("things", () => {
   it("can save and retrieve a thing", () =>
     withPg(async (db) => {
       // given
-      const thingId: Thing.Id = "1";
+      const thingId = randomThingId();
       const thing: Thing = {
         thingId,
         name: "apple",
@@ -23,7 +24,7 @@ describe("things", () => {
   it("can no longer retrieve a thing after deleting it", () =>
     withPg(async (db) => {
       // given
-      const thingId: Thing.Id = "2";
+      const thingId = randomThingId();
       const thing: Thing = {
         thingId,
         name: "banana",
@@ -42,7 +43,7 @@ describe("things", () => {
   it("can’t retrieve a thing that was never there", () =>
     withPg(async (db) => {
       // given
-      const thingId: Thing.Id = "3";
+      const thingId = randomThingId();
 
       // when
       const actualThings = await db.getThing(thingId);
@@ -54,7 +55,7 @@ describe("things", () => {
   it("can overwrite a thing", () =>
     withPg(async (db) => {
       // given
-      const thingId: Thing.Id = "4";
+      const thingId = randomThingId();
       const thing1: Thing = {
         thingId,
         name: "carrot",
