@@ -101,31 +101,62 @@ describe("things", () => {
 
             // when
             const before = Instant.now();
-
             await db.saveThing(thing);
+            const after = Instant.now();
+
+            // then
             const { rows } = await client.query({
               text: `
-                    SELECT when_created
-                    FROM things
-                    WHERE thing_id = $1
-                `,
+                      SELECT when_created
+                      FROM things
+                      WHERE thing_id = $1
+                  `,
               values: [thingId],
             });
             const whenCreated = nativeJs(rows[0].when_created).toInstant();
 
-            const after = Instant.now();
-
-            // then
-            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
+            expect(whenCreated.toEpochMilli()).toBeGreaterThan(
               before.toEpochMilli()
             );
-            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
+            expect(whenCreated.toEpochMilli()).toBeLessThan(
               after.toEpochMilli()
             );
           })
         ));
 
-      it.todo("is NOT updated when the thing is updated");
+      it("is NOT updated when the thing is updated", () =>
+        withPg((db) =>
+          withClient(async (client) => {
+            // given
+            const thingId = randomThingId();
+            const thing1 = randomThing({ thingId });
+            const thing2 = randomThing({ thingId });
+
+            // when
+            const before = Instant.now();
+            await db.saveThing(thing1);
+            const after = Instant.now();
+            await db.saveThing(thing2);
+
+            // then
+            const { rows } = await client.query({
+              text: `
+                      SELECT when_created
+                      FROM things
+                      WHERE thing_id = $1
+                  `,
+              values: [thingId],
+            });
+            const whenCreated = nativeJs(rows[0].when_created).toInstant();
+
+            expect(whenCreated.toEpochMilli()).toBeGreaterThan(
+              before.toEpochMilli()
+            );
+            expect(whenCreated.toEpochMilli()).toBeLessThan(
+              after.toEpochMilli()
+            );
+          })
+        ));
     });
 
     describe("when_updated", () => {
