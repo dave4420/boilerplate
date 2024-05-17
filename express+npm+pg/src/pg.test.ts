@@ -219,12 +219,12 @@ describe("things", () => {
             const after = Instant.now();
 
             // then
-            const whenCreated = await getWhenCreated(client, thingId);
+            const whenUpdated = await getWhenUpdated(client, thingId);
 
-            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
+            expect(whenUpdated.toEpochMilli()).toBeGreaterThanOrEqual(
               before.toEpochMilli()
             );
-            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
+            expect(whenUpdated.toEpochMilli()).toBeLessThanOrEqual(
               after.toEpochMilli()
             );
           })
