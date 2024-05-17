@@ -76,15 +76,5 @@ describe("things", () => {
       expect(actualThings).toEqual(expectedThings);
     }));
 
-  describe("timestamp metadata", () => {
-    describe("when_created", () => {
-      it.todo("is initially set to the current time");
-      it.todo("is NOT updated when the thing is updated");
-    });
-
-    describe("when_updated", () => {
-      it.todo("is initially set to the current time");
-      it.todo("is updated to the current time when the thing is updated");
-    });
-  });
+  // DAVE: add test cases for when_created/when_updated
 });
