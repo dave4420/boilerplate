@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "scripts/dev.sh",
     "test": "scripts/test.sh",
-    "test:watch": "scripts/test-watch.sh"
+    "test:watch": "bin/with-pg.sh scripts/test-watch.sh"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",

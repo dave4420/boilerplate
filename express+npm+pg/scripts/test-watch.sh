@@ -2,8 +2,8 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-. bin/pg.inc.sh
+nodemon --config bin/restart-pg.nodemon.json -e sql true </dev/null &
 
-concurrently -names 'pg,tests' \
-    'nodemon --config bin/restart-pg.nodemon.json -e sql true' \
-    'jest --watch'
+jest --watch
+
+kill $(jobs -p)
