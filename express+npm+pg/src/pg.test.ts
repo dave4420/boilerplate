@@ -29,6 +29,21 @@ const getWhenCreated = async (
   return nativeJs(rows[0].when_created).toInstant();
 };
 
+const getWhenUpdated = async (
+  client: Client,
+  thingId: Thing.Id
+): Promise<Instant> => {
+  const { rows } = await client.query({
+    text: `
+                  SELECT when_updated
+                  FROM things
+                  WHERE thing_id = $1
+              `,
+    values: [thingId],
+  });
+  return nativeJs(rows[0].when_updated).toInstant();
+};
+
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -163,8 +178,58 @@ describe("things", () => {
     });
 
     describe("when_updated", () => {
-      it.todo("is initially set to the current time");
-      it.todo("is updated to the current time when the thing is updated");
+      it("is initially set to the current time", () => {
+        withPg((db) =>
+          withClient(async (client) => {
+            // given
+            const thingId = randomThingId();
+            const thing = randomThing({ thingId });
+
+            // when
+            const before = Instant.now();
+            await db.saveThing(thing);
+            const after = Instant.now();
+
+            // then
+            const whenUpdated = await getWhenUpdated(client, thingId);
+
+            expect(whenUpdated.toEpochMilli()).toBeGreaterThanOrEqual(
+              before.toEpochMilli()
+            );
+            expect(whenUpdated.toEpochMilli()).toBeLessThanOrEqual(
+              after.toEpochMilli()
+            );
+          })
+        );
+      });
+
+      it("is updated to the current time when the thing is updated", () => {
+        withPg((db) =>
+          withClient(async (client) => {
+            // given
+            const thingId = randomThingId();
+            const thing1 = randomThing({ thingId });
+            const thing2 = randomThing({ thingId });
+
+            // when
+            await db.saveThing(thing1);
+            await sleep(1);
+            const before = Instant.now();
+            await db.saveThing(thing2);
+            const after = Instant.now();
+
+            // then
+            const whenCreated = await getWhenCreated(client, thingId);
+
+            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
+              before.toEpochMilli()
+            );
+            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
+              after.toEpochMilli()
+            );
+          })
+        );
+      });
     });
   });
 });
