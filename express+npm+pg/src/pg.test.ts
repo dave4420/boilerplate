@@ -1,5 +1,18 @@
+import { Client } from "pg";
+import { Instant, nativeJs } from "@js-joda/core";
+
 import { withPg, Thing } from "./pg";
 import { randomThingId } from "./test-values";
+
+const withClient = async <R>(fn: (db: Client) => Promise<R>): Promise<R> => {
+  const db = new Client();
+  try {
+    await db.connect();
+    return await fn(db);
+  } finally {
+    await db.end();
+  }
+};
 
 describe("things", () => {
   it("can save and retrieve a thing", () =>
@@ -79,7 +92,43 @@ describe("things", () => {
 
   describe("timestamp metadata", () => {
     describe("when_created", () => {
-      it.todo("is initially set to the current time");
+      it("is initially set to the current time", () =>
+        withPg((db) =>
+          withClient(async (client) => {
+            // given
+            const thingId = randomThingId();
+            const thing: Thing = {
+              thingId,
+              name: "egg",
+              quantity: 2,
+            };
+
+            // when
+            const before = Instant.now();
+
+            await db.saveThing(thing);
+            const { rows } = await client.query({
+              text: `
+                    SELECT when_created
+                    FROM things
+                    WHERE thing_id = $1
+                `,
+              values: [thingId],
+            });
+            const whenCreated = nativeJs(rows[0].when_created).toInstant();
+
+            const after = Instant.now();
+
+            // then
+            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
+              before.toEpochMilli()
+            );
+            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
+              after.toEpochMilli()
+            );
+          })
+        ));
+
       it.todo("is NOT updated when the thing is updated");
     });
 
