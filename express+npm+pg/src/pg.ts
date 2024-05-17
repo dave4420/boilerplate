@@ -12,7 +12,7 @@ export type Thing = Readonly<{
 export namespace Thing {
   export type Id = Branded<string, Thing>;
   export const idOrNull = (raw: string): Id | null =>
-    uuid.validate(raw) ? branded(raw) : null;
+    uuid.validate(raw) ? branded(raw.toLowerCase()) : null;
 }
 
 export interface Database {
