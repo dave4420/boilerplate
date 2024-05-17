@@ -14,6 +14,9 @@ const withClient = async <R>(fn: (db: Client) => Promise<R>): Promise<R> => {
   }
 };
 
+const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 describe("things", () => {
   it("can save and retrieve a thing", () =>
     withPg(async (db) => {
@@ -115,10 +118,10 @@ describe("things", () => {
             });
             const whenCreated = nativeJs(rows[0].when_created).toInstant();
 
-            expect(whenCreated.toEpochMilli()).toBeGreaterThan(
+            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
               before.toEpochMilli()
             );
-            expect(whenCreated.toEpochMilli()).toBeLessThan(
+            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
               after.toEpochMilli()
             );
           })
@@ -136,6 +139,7 @@ describe("things", () => {
             const before = Instant.now();
             await db.saveThing(thing1);
             const after = Instant.now();
+            await sleep(1);
             await db.saveThing(thing2);
 
             // then
@@ -149,10 +153,10 @@ describe("things", () => {
             });
             const whenCreated = nativeJs(rows[0].when_created).toInstant();
 
-            expect(whenCreated.toEpochMilli()).toBeGreaterThan(
+            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
               before.toEpochMilli()
             );
-            expect(whenCreated.toEpochMilli()).toBeLessThan(
+            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
               after.toEpochMilli()
             );
           })
