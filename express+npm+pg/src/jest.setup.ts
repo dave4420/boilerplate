@@ -1,5 +1,5 @@
 import { Client } from "pg";
-import { resetRandomIds } from "./test-values";
+import { resetRandomIds } from "./test-globals";
 
 export default async () => {
   resetRandomIds();

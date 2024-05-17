@@ -2,17 +2,12 @@ import { expect } from "@jest/globals";
 import * as uuid from "uuid";
 
 import { Thing } from "./pg";
-
-let given = new Map();
-
-export const resetRandomIds = (): void => {
-  given = new Map();
-};
+import { testValuesEntropy } from "./test-globals";
 
 const entropy = (): string => {
-  const key = expect.getState().currentTestName;
-  const value = 1 + (given.get(key) ?? 0);
-  given.set(key, value);
+  const key = expect.getState().currentTestName ?? "";
+  const value = 1 + (testValuesEntropy.get(key) ?? 0);
+  testValuesEntropy.set(key, value);
   return `${key} @${value}`;
 };
 
