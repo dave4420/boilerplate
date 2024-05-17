@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-bin/withpg.sh \
+bin/with-pg.sh \
     concurrently --names 'express,orval' \
         'nodemon --exec ts-node src/index.ts | pino-pretty' \
         'orval --watch'

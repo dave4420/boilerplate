@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "scripts/dev.sh",
     "test": "scripts/test.sh",
-    "test:watch": "bin/withpg.sh jest --watch"
+    "test:watch": "bin/with-pg.sh jest --watch"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
