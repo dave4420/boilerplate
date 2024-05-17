@@ -1,0 +1,5 @@
+{
+  "events": {
+    "restart": "bin/restart-pg.sh"
+  }
+}
