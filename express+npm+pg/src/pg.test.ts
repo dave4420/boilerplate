@@ -2,7 +2,7 @@ import { Client } from "pg";
 import { Instant, nativeJs } from "@js-joda/core";
 
 import { withPg, Thing } from "./pg";
-import { randomThingId } from "./test-values";
+import { randomThingId, randomThing } from "./test-values";
 
 const withClient = async <R>(fn: (db: Client) => Promise<R>): Promise<R> => {
   const db = new Client();
@@ -97,11 +97,7 @@ describe("things", () => {
           withClient(async (client) => {
             // given
             const thingId = randomThingId();
-            const thing: Thing = {
-              thingId,
-              name: "egg",
-              quantity: 2,
-            };
+            const thing = randomThing({ thingId });
 
             // when
             const before = Instant.now();
