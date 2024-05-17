@@ -14,6 +14,21 @@ const withClient = async <R>(fn: (db: Client) => Promise<R>): Promise<R> => {
   }
 };
 
+const getWhenCreated = async (
+  client: Client,
+  thingId: Thing.Id
+): Promise<Instant> => {
+  const { rows } = await client.query({
+    text: `
+                SELECT when_created
+                FROM things
+                WHERE thing_id = $1
+            `,
+    values: [thingId],
+  });
+  return nativeJs(rows[0].when_created).toInstant();
+};
+
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -108,15 +123,7 @@ describe("things", () => {
             const after = Instant.now();
 
             // then
-            const { rows } = await client.query({
-              text: `
-                      SELECT when_created
-                      FROM things
-                      WHERE thing_id = $1
-                  `,
-              values: [thingId],
-            });
-            const whenCreated = nativeJs(rows[0].when_created).toInstant();
+            const whenCreated = await getWhenCreated(client, thingId);
 
             expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
               before.toEpochMilli()
@@ -143,15 +150,7 @@ describe("things", () => {
             await db.saveThing(thing2);
 
             // then
-            const { rows } = await client.query({
-              text: `
-                      SELECT when_created
-                      FROM things
-                      WHERE thing_id = $1
-                  `,
-              values: [thingId],
-            });
-            const whenCreated = nativeJs(rows[0].when_created).toInstant();
+            const whenCreated = await getWhenCreated(client, thingId);
 
             expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
               before.toEpochMilli()
