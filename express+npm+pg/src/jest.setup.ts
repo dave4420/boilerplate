@@ -1,8 +1,6 @@
 import { Client } from "pg";
-import { resetRandomIds } from "./test-values";
 
 export default async () => {
-  resetRandomIds();
   const db = new Client();
   try {
     await db.connect();

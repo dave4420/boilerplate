@@ -3,14 +3,11 @@ import * as uuid from "uuid";
 
 import { Thing } from "./pg";
 
-let given = new Map();
-
-export const resetRandomIds = (): void => {
-  given = new Map();
-};
+// Code is reloaded on each test run, so we don't need to reset this ourselves
+const given = new Map<string, number>();
 
 const entropy = (): string => {
-  const key = expect.getState().currentTestName;
+  const key = expect.getState().currentTestName ?? "";
   const value = 1 + (given.get(key) ?? 0);
   given.set(key, value);
   return `${key} @${value}`;
