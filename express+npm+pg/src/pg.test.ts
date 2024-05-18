@@ -14,6 +14,13 @@ const withClient = async <R>(fn: (db: Client) => Promise<R>): Promise<R> => {
   }
 };
 
+const getNow = async (client: Client): Promise<Instant> => {
+  const { rows } = await client.query({
+    text: `SELECT NOW()`,
+  });
+  return nativeJs(rows[0].now).toInstant();
+};
+
 const getWhenCreated = async (
   client: Client,
   thingId: Thing.Id
@@ -133,9 +140,9 @@ describe("things", () => {
             const thing = randomThing({ thingId });
 
             // when
-            const before = Instant.now();
+            const before = await getNow(client);
             await db.saveThing(thing);
-            const after = Instant.now();
+            const after = await getNow(client);
 
             // then
             const whenCreated = await getWhenCreated(client, thingId);
@@ -153,9 +160,9 @@ describe("things", () => {
             const thing2 = randomThing({ thingId });
 
             // when
-            const before = Instant.now();
+            const before = await getNow(client);
             await db.saveThing(thing1);
-            const after = Instant.now();
+            const after = await getNow(client);
             await sleep(1);
             await db.saveThing(thing2);
 
@@ -176,9 +183,9 @@ describe("things", () => {
             const thing = randomThing({ thingId });
 
             // when
-            const before = Instant.now();
+            const before = await getNow(client);
             await db.saveThing(thing);
-            const after = Instant.now();
+            const after = await getNow(client);
 
             // then
             const whenUpdated = await getWhenUpdated(client, thingId);
@@ -199,9 +206,9 @@ describe("things", () => {
             // when
             await db.saveThing(thing1);
             await sleep(1);
-            const before = Instant.now();
+            const before = await getNow(client);
             await db.saveThing(thing2);
-            const after = Instant.now();
+            const after = await getNow(client);
 
             // then
             const whenUpdated = await getWhenUpdated(client, thingId);
