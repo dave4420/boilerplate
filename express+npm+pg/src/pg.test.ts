@@ -139,13 +139,8 @@ describe("things", () => {
 
             // then
             const whenCreated = await getWhenCreated(client, thingId);
-
-            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
-              before.toEpochMilli()
-            );
-            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
-              after.toEpochMilli()
-            );
+            // @ts-ignore
+            expect(whenCreated).toBeBetweenInclusive(before, after);
           })
         ));
 
@@ -166,13 +161,8 @@ describe("things", () => {
 
             // then
             const whenCreated = await getWhenCreated(client, thingId);
-
-            expect(whenCreated.toEpochMilli()).toBeGreaterThanOrEqual(
-              before.toEpochMilli()
-            );
-            expect(whenCreated.toEpochMilli()).toBeLessThanOrEqual(
-              after.toEpochMilli()
-            );
+            // @ts-ignore
+            expect(whenCreated).toBeBetweenInclusive(before, after);
           })
         ));
     });
@@ -192,13 +182,8 @@ describe("things", () => {
 
             // then
             const whenUpdated = await getWhenUpdated(client, thingId);
-
-            expect(whenUpdated.toEpochMilli()).toBeGreaterThanOrEqual(
-              before.toEpochMilli()
-            );
-            expect(whenUpdated.toEpochMilli()).toBeLessThanOrEqual(
-              after.toEpochMilli()
-            );
+            // @ts-ignore
+            expect(whenUpdated).toBeBetweenInclusive(before, after);
           })
         );
       });
@@ -220,13 +205,8 @@ describe("things", () => {
 
             // then
             const whenUpdated = await getWhenUpdated(client, thingId);
-
-            expect(whenUpdated.toEpochMilli()).toBeGreaterThanOrEqual(
-              before.toEpochMilli()
-            );
-            expect(whenUpdated.toEpochMilli()).toBeLessThanOrEqual(
-              after.toEpochMilli()
-            );
+            // @ts-ignore
+            expect(whenUpdated).toBeBetweenInclusive(before, after);
           })
         );
       });
