@@ -175,7 +175,7 @@ describe("things", () => {
     });
 
     describe("when_updated", () => {
-      it("is initially set to the current time", () => {
+      it("is initially set to the current time", () =>
         withPg((db) =>
           withClient(async (client) => {
             // given
@@ -192,10 +192,9 @@ describe("things", () => {
             // @ts-ignore
             expect(whenUpdated).toBeBetweenInclusive(before, after);
           })
-        );
-      });
+        ));
 
-      it("is updated to the current time when the thing is updated", () => {
+      it("is updated to the current time when the thing is updated", () =>
         withPg((db) =>
           withClient(async (client) => {
             // given
@@ -215,8 +214,7 @@ describe("things", () => {
             // @ts-ignore
             expect(whenUpdated).toBeBetweenInclusive(before, after);
           })
-        );
-      });
+        ));
     });
   });
 });
