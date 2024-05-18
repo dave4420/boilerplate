@@ -15,6 +15,7 @@ import { Thing } from "./pg";
 // the same test case repeatedly getting the same values, which helps
 // when trying to work out why it’s gone red.
 
+// Code is reloaded on each test run, so we don't need to reset this ourselves
 const given = new Map<string, number>();
 
 const entropy = (): string => {
