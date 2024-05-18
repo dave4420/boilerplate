@@ -213,3 +213,6 @@ describe("things", () => {
     });
   });
 });
+
+// DAVE: add custom matcher to namespace and remove ts-ignore when we use it above
+// see <https://stackoverflow.com/questions/67894491/use-jests-expect-extend-with-typescript-scoped-to-a-single-test-file>
