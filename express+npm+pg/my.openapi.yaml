@@ -42,7 +42,8 @@ paths:
           required: true
           description: The ID of the thing to get
           schema:
-            type: integer
+            type: string
+            format: uuid
       responses:
         "200":
           description: OK
