@@ -146,7 +146,6 @@ describe("things", () => {
 
             // then
             const whenCreated = await getWhenCreated(client, thingId);
-            // @ts-ignore
             expect(whenCreated).toBeBetweenInclusive(before, after);
           })
         ));
@@ -168,7 +167,6 @@ describe("things", () => {
 
             // then
             const whenCreated = await getWhenCreated(client, thingId);
-            // @ts-ignore
             expect(whenCreated).toBeBetweenInclusive(before, after);
           })
         ));
@@ -189,7 +187,6 @@ describe("things", () => {
 
             // then
             const whenUpdated = await getWhenUpdated(client, thingId);
-            // @ts-ignore
             expect(whenUpdated).toBeBetweenInclusive(before, after);
           })
         ));
@@ -211,13 +208,9 @@ describe("things", () => {
 
             // then
             const whenUpdated = await getWhenUpdated(client, thingId);
-            // @ts-ignore
             expect(whenUpdated).toBeBetweenInclusive(before, after);
           })
         ));
     });
   });
 });
-
-// DAVE: add custom matcher to namespace and remove ts-ignore when we use it above
-// see <https://stackoverflow.com/questions/67894491/use-jests-expect-extend-with-typescript-scoped-to-a-single-test-file>

@@ -2,6 +2,14 @@ import { expect } from "@jest/globals";
 import { Instant } from "@js-joda/core";
 import type { MatcherFunction } from "expect";
 
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeBetweenInclusive(floor: unknown, ceiling: unknown): R;
+    }
+  }
+}
+
 const toBeBetweenInclusiveHelper = (
   actual: number,
   actualDisplay: string,
