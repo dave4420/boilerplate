@@ -1,7 +1,7 @@
 import { expect } from "@jest/globals";
 import * as uuid from "uuid";
 
-import { Thing } from "./pg";
+import { Thing } from "./domain";
 
 // Produce random but deterministic values for use in tests.
 
