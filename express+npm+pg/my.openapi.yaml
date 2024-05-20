@@ -30,7 +30,6 @@ components:
         - quantity
 
 # orval ignores the parameters key if it’s directly under the path.
-# DAVE: deduplicate it via yaml magic
 
 paths:
   /stuff/{thingId}:
@@ -69,7 +68,7 @@ paths:
         - name: thingId
           in: path
           required: true
-          description: The ID of the thing to get
+          description: The ID of the thing to store
           schema:
             type: string
             format: uuid
@@ -97,7 +96,7 @@ paths:
         - name: thingId
           in: path
           required: true
-          description: The ID of the thing to get
+          description: The ID of the thing to delete
           schema:
             type: string
             format: uuid
