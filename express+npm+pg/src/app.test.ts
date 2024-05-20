@@ -31,3 +31,17 @@ afterAll(
       app?.shutdown();
     })
 );
+
+const get = async (path: string): Promise<Response> => {
+  if (app === null) {
+    throw Error("App is not started");
+  }
+  return fetch(`http://localhost:${app.port()}${path}`);
+};
+
+describe("/health-check", () => {
+  it("returns 200", async () => {
+    const response = await get(`/health-check`);
+    expect(response.status).toBe(200);
+  });
+});
