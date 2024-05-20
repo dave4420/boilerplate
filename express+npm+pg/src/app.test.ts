@@ -1,7 +1,7 @@
 import pino from "pino";
 import { App, startApp } from "./app";
 import { randomThing, randomThingId } from "./test-values";
-import { Thing } from "./pg";
+import { Thing } from "./domain";
 
 let app: App | null = null;
 let onShutdownComplete: (() => void) | null = null;
