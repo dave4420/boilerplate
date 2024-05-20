@@ -61,6 +61,25 @@ const putThing = (log: Logger) =>
     });
   });
 
+const deleteThing = (log: Logger) =>
+  asyncHandler(async (req: Request, res: Response) => {
+    const parsed = schema.deleteThingParams.safeParse(req.params);
+    log.debug({ parsed }, "deleteThing");
+    if (!parsed.success) {
+      sendError(400, parsed.error.message, res);
+      return;
+    }
+    const thingId = Thing.idOrNull(parsed.data.thingId);
+    if (thingId === null) {
+      sendError(400, "thing not found", res);
+      return;
+    }
+    await withPg(async (db) => {
+      await db.deleteThing(thingId);
+      res.status(204).end();
+    });
+  });
+
 export const myApiRoutes = (log: Logger): express.Router => {
   const routes = express.Router();
 
@@ -68,6 +87,7 @@ export const myApiRoutes = (log: Logger): express.Router => {
 
   routes.get("/stuff/:thingId", getThing(log));
   routes.put("/stuff/:thingId", putThing(log));
+  routes.put("/stuff/:thingId", deleteThing(log));
 
   return routes;
 };
