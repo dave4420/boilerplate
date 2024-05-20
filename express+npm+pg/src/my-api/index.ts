@@ -26,10 +26,8 @@ const getThing = (log: Logger) =>
       sendError(400, "thing not found", res);
       return;
     }
-    log.debug({ thingId }, "have thing id");
     const db = await pg();
     try {
-      log.debug("have db");
       const things = await db.getThing(thingId);
       if (things.length === 0) {
         sendError(404, "thing not found", res);
