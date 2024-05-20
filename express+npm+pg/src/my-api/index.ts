@@ -3,10 +3,10 @@ import express from "express";
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import * as schema from "../gen/openapi/my";
-import { pg } from "../pg";
+import { withPg } from "../pg";
 import { Thing } from "../domain";
 
-// DAVE: use connection pool instead of pg() directly
+// DAVE: use connection pool instead of withPg() directly
 
 const sendError = (status: number, message: string, res: Response) => {
   // DAVE: persuade orval to generate zod for this
@@ -26,8 +26,7 @@ const getThing = (log: Logger) =>
       sendError(400, "thing not found", res);
       return;
     }
-    const db = await pg();
-    try {
+    await withPg(async (db) => {
       const things = await db.getThing(thingId);
       if (things.length === 0) {
         sendError(404, "thing not found", res);
@@ -35,9 +34,7 @@ const getThing = (log: Logger) =>
       }
       const { thingId: _ignore, ...fields } = things[0];
       res.json(schema.getThingResponse.parse(fields));
-    } finally {
-      await db.close();
-    }
+    });
   });
 
 const putThing = (log: Logger) =>
@@ -58,13 +55,10 @@ const putThing = (log: Logger) =>
       sendError(400, "thing not found", res);
       return;
     }
-    const db = await pg();
-    try {
+    await withPg(async (db) => {
       await db.saveThing({ ...parsedBody.data, thingId });
       res.status(204).end();
-    } finally {
-      await db.close();
-    }
+    });
   });
 
 export const myApiRoutes = (log: Logger): express.Router => {
