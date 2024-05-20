@@ -119,7 +119,7 @@ describe("/my-api/stuff/{thingId}", () => {
 
     // when
     await putThing(thing);
-    const deleteResponse = await getThing(thingId);
+    const deleteResponse = await deleteThing(thingId);
     const getResponse = await getThing(thingId);
 
     // then

@@ -74,8 +74,11 @@ const deleteThing = (log: Logger) =>
       sendError(400, "thing not found", res);
       return;
     }
+    log.debug("about to connect to pg");
     await withPg(async (db) => {
+      log.debug("about to delete thing");
       await db.deleteThing(thingId);
+      log.debug("about to send 204");
       res.status(204).end();
     });
   });
@@ -87,7 +90,7 @@ export const myApiRoutes = (log: Logger): express.Router => {
 
   routes.get("/stuff/:thingId", getThing(log));
   routes.put("/stuff/:thingId", putThing(log));
-  routes.put("/stuff/:thingId", deleteThing(log));
+  routes.delete("/stuff/:thingId", deleteThing(log));
 
   return routes;
 };
