@@ -14,6 +14,7 @@ export interface AppParams {
 }
 
 export interface App {
+  port(): number;
   shutdown(): void;
 }
 
@@ -36,10 +37,20 @@ export const startApp = (params: AppParams): App => {
 
   routes.use("/my-api", myApiRoutes(log));
 
-  const server = routes.listen(params.port, params.onUp);
+  let port: number = 0;
+  const server = routes.listen(params.port, () => {
+    const address = server.address();
+    if (address !== null && typeof address === "object") {
+      port = address.port;
+    }
+    params.onUp();
+  });
 
   return {
-    shutdown: () => {
+    port() {
+      return port;
+    },
+    shutdown() {
       server.close(params.onDown);
     },
   };
