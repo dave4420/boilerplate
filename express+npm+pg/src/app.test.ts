@@ -1,6 +1,6 @@
 import pino from "pino";
 import { App, startApp } from "./app";
-import { randomThingId } from "./test-values";
+import { randomThing, randomThingId } from "./test-values";
 import { Thing } from "./pg";
 
 let app: App | null = null;
@@ -41,10 +41,40 @@ const get = async (path: string): Promise<Response> => {
   return fetch(`http://localhost:${app.port()}${path}`);
 };
 
+const delete_ = async (path: string): Promise<Response> => {
+  if (app === null) {
+    throw Error("App is not started");
+  }
+  return fetch(`http://localhost:${app.port()}${path}`, {
+    method: "DELETE",
+  });
+};
+
+const put = async (path: string, body: object): Promise<Response> => {
+  if (app === null) {
+    throw Error("App is not started");
+  }
+  return fetch(`http://localhost:${app.port()}${path}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+};
+
 const thingPath = (thingId: Thing.Id): string => `/my-api/stuff/${thingId}`;
 
 const getThing = async (thingId: Thing.Id): Promise<Response> =>
   get(thingPath(thingId));
+
+const deleteThing = async (thingId: Thing.Id): Promise<Response> =>
+  delete_(thingPath(thingId));
+
+const putThing = async (thing: Thing): Promise<Response> => {
+  const { thingId, ...fields } = thing;
+  return await put(thingPath(thingId), fields);
+};
 
 describe("/health-check", () => {
   it("returns 200", async () => {
@@ -63,5 +93,37 @@ describe("/my-api/stuff/{thingId}", () => {
 
     // then
     expect(response.status).toBe(404);
+  });
+
+  test("GET returns 200 after PUT", async () => {
+    // given
+    const thingId = randomThingId();
+    const thing: Thing = randomThing({ thingId });
+    const { thingId: _ignore, ...expectedThing } = { ...thing };
+
+    // when
+    const putResponse = await putThing(thing);
+    const getResponse = await getThing(thingId);
+
+    // then
+    expect(putResponse.status).toBe(204);
+    expect(getResponse.status).toBe(200);
+    const actualThing = await getResponse.json();
+    expect(actualThing).toEqual(expectedThing);
+  });
+
+  test("GET returns 404 after DELETE", async () => {
+    // given
+    const thingId = randomThingId();
+    const thing: Thing = randomThing({ thingId });
+
+    // when
+    await putThing(thing);
+    const deleteResponse = await getThing(thingId);
+    const getResponse = await getThing(thingId);
+
+    // then
+    expect(deleteResponse.status).toBe(204);
+    expect(getResponse.status).toBe(404);
   });
 });
