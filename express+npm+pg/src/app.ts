@@ -6,6 +6,11 @@ import { Request, Response } from "express";
 import { getHealthResponse } from "./gen/openapi/health";
 import { myApiRoutes } from "./my-api/index";
 
+export interface AppParams {
+  log: Logger;
+  port: number;
+}
+
 export interface App {
   shutdown(): void;
 }
@@ -18,7 +23,8 @@ const healthCheckEndpoint = asyncHandler(
   }
 );
 
-export const startApp = (log: Logger, port: number): App => {
+export const startApp = (params: AppParams): App => {
+  const { log } = params;
   log.info("Starting server...");
 
   const routes = express();
@@ -28,8 +34,8 @@ export const startApp = (log: Logger, port: number): App => {
 
   routes.use("/my-api", myApiRoutes(log));
 
-  const server = routes.listen(port, () => {
-    log.info(`Server is running at http://localhost:${port}`);
+  const server = routes.listen(params.port, () => {
+    log.info(`Server is running at http://localhost:${params.port}`);
   });
 
   return {

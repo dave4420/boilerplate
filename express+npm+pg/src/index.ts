@@ -11,7 +11,9 @@ const getPort = (): number => {
   return parseInt(port, 10);
 };
 
-const app = startApp(log, getPort());
+const port = getPort();
+
+const app = startApp({ log, port });
 
 ["SIGTERM", "SIGINT"].forEach((signal) => {
   process.on(signal, () => {
