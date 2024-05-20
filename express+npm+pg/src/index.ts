@@ -1,7 +1,7 @@
 import pino from "pino";
 import { startApp } from "./app";
 
-const log = pino();
+const log = pino({ level: process.env.LOG_LEVEL ?? "info" });
 
 const getPort = (): number => {
   const port = process.env.PORT;

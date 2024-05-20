@@ -16,6 +16,7 @@ const sendError = (status: number, message: string, res: Response) => {
 const getThing = (log: Logger) =>
   asyncHandler(async (req: Request, res: Response) => {
     const parsed = schema.getThingParams.safeParse(req.params);
+    log.debug({ parsed }, "getThing");
     if (!parsed.success) {
       sendError(400, parsed.error.message, res);
       return;
