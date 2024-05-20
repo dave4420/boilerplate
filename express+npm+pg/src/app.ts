@@ -18,7 +18,7 @@ const healthCheckEndpoint = asyncHandler(
   }
 );
 
-export const startApp = (log: Logger): App => {
+export const startApp = (log: Logger, port: number): App => {
   log.info("Starting server...");
 
   const routes = express();
@@ -28,7 +28,6 @@ export const startApp = (log: Logger): App => {
 
   routes.use("/my-api", myApiRoutes(log));
 
-  const port = parseInt(process.env.PORT ?? "3000", 10);
   const server = routes.listen(port, () => {
     log.info(`Server is running at http://localhost:${port}`);
   });
