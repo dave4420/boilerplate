@@ -38,13 +38,40 @@ const getThing = (log: Logger) =>
     } finally {
       await db.close();
     }
-    throw Error("Not implemented");
+  });
+
+const putThing = (log: Logger) =>
+  asyncHandler(async (req: Request, res: Response) => {
+    const parsedParams = schema.putThingParams.safeParse(req.params);
+    const parsedBody = schema.putThingBody.safeParse(req.body);
+    log.debug({ parsedParams, parsedBody }, "putThing");
+    if (!parsedParams.success) {
+      sendError(400, parsedParams.error.message, res);
+      return;
+    }
+    if (!parsedBody.success) {
+      sendError(400, parsedBody.error.message, res);
+      return;
+    }
+    const thingId = Thing.idOrNull(parsedParams.data.thingId);
+    if (thingId === null) {
+      sendError(400, "thing not found", res);
+      return;
+    }
+    const db = await pg();
+    try {
+      await db.saveThing({ ...parsedBody.data, thingId });
+      res.status(204).end();
+    } finally {
+      await db.close();
+    }
   });
 
 export const myApiRoutes = (log: Logger): express.Router => {
   const routes = express.Router();
 
   routes.get("/stuff/:thingId", getThing(log));
+  routes.put("/stuff/:thingId", putThing(log));
 
   return routes;
 };
