@@ -9,6 +9,8 @@ import { myApiRoutes } from "./my-api/index";
 export interface AppParams {
   log: Logger;
   port: number;
+  onUp(): void;
+  onDown(): void;
 }
 
 export interface App {
@@ -34,15 +36,11 @@ export const startApp = (params: AppParams): App => {
 
   routes.use("/my-api", myApiRoutes(log));
 
-  const server = routes.listen(params.port, () => {
-    log.info(`Server is running at http://localhost:${params.port}`);
-  });
+  const server = routes.listen(params.port, params.onUp);
 
   return {
     shutdown: () => {
-      server.close(async () => {
-        log.info("server closed");
-      });
+      server.close(params.onDown);
     },
   };
 };

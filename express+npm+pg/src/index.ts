@@ -13,7 +13,16 @@ const getPort = (): number => {
 
 const port = getPort();
 
-const app = startApp({ log, port });
+const app = startApp({
+  log,
+  port,
+  onUp() {
+    log.info(`Server is running at http://localhost:${port}`);
+  },
+  onDown() {
+    log.info("server closed");
+  },
+});
 
 ["SIGTERM", "SIGINT"].forEach((signal) => {
   process.on(signal, () => {
