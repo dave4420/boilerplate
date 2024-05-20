@@ -3,6 +3,7 @@ import uuid from "uuid";
 
 import { branded, Branded } from "./branding";
 
+// DAVE: factor Thing out to domain module
 export type Thing = Readonly<{
   thingId: Thing.Id;
   name: string;
