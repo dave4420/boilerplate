@@ -70,6 +70,8 @@ const putThing = (log: Logger) =>
 export const myApiRoutes = (log: Logger): express.Router => {
   const routes = express.Router();
 
+  routes.use(express.json());
+
   routes.get("/stuff/:thingId", getThing(log));
   routes.put("/stuff/:thingId", putThing(log));
 
