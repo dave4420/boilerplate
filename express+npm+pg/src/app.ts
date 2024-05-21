@@ -1,13 +1,13 @@
-import { Logger } from "pino";
 import pinoHttp from "pino-http";
 import express from "express";
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { getHealthResponse } from "./gen/openapi/health";
 import { myApiRoutes } from "./my-api/index";
+import { Dependencies } from "./dependencies";
 
 export interface AppParams {
-  log: Logger;
+  deps: Dependencies;
   port: number;
   onUp(): void;
   onDown(): void;
@@ -27,7 +27,7 @@ const healthCheckEndpoint = asyncHandler(
 );
 
 export const startApp = (params: AppParams): App => {
-  const { log } = params;
+  const { log } = params.deps;
   log.info("Starting server...");
 
   const routes = express();
@@ -35,7 +35,7 @@ export const startApp = (params: AppParams): App => {
 
   routes.get("/health-check", healthCheckEndpoint);
 
-  routes.use("/my-api", myApiRoutes(log));
+  routes.use("/my-api", myApiRoutes(params.deps));
 
   let port: number = 0;
   const server = routes.listen(params.port, () => {

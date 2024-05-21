@@ -1,21 +1,40 @@
 import { Client } from "pg";
+import Pool from "pg-pool";
 import { Thing } from "./domain";
 
-export interface Database {
-  close(): Promise<void>;
+export interface DatabasePool {
+  withConnection<R>(
+    continuation: (connection: DatabaseConnection) => Promise<R>
+  ): Promise<R>;
+}
 
+export const pgPool = (): DatabasePool & DatabaseCloser => {
+  const pool = new Pool();
+  return {
+    withConnection: async (continuation) => {
+      const client = await pool.connect();
+      try {
+        return await continuation(pg(client));
+      } finally {
+        await client.release();
+      }
+    },
+    close: async () => await pool.end(),
+  };
+};
+
+export interface DatabaseCloser {
+  close(): Promise<void>;
+}
+
+export interface DatabaseConnection {
   saveThing(thing: Thing): Promise<void>;
   getThing(thingId: Thing.Id): Promise<[Thing] | []>;
   deleteThing(thingId: Thing.Id): Promise<void>;
 }
 
-export const pg = async (): Promise<Database> => {
-  const db = new Client();
-  await db.connect();
-
+const pg = (db: Client): DatabaseConnection => {
   return {
-    close: async () => await db.end(),
-
     saveThing: async (thing) => {
       await db.query({
         text: `
@@ -61,13 +80,15 @@ export const pg = async (): Promise<Database> => {
   };
 };
 
-export const withPg = async <R>(
-  continuation: (db: Database) => Promise<R>
+export const withPg = async <R>( // used only by tests
+  continuation: (db: DatabaseConnection) => Promise<R>
 ): Promise<R> => {
-  const db = await pg();
+  const client = new Client();
+  await client.connect();
+  const db = await pg(client);
   try {
     return await continuation(db);
   } finally {
-    await db.close();
+    await client.end();
   }
 };

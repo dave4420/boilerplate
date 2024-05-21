@@ -1,16 +1,23 @@
 import pino from "pino";
+import { DatabaseCloser, pgPool } from "./pg";
 import { App, startApp } from "./app";
 import { randomThing, randomThingId } from "./test-values";
 import { Thing } from "./domain";
 
 let app: App | null = null;
 let onShutdownComplete: (() => void) | null = null;
+let pgClose: DatabaseCloser | null = null;
 
 beforeAll(
   (): Promise<void> =>
     new Promise((resolve) => {
+      const pg = pgPool();
+      pgClose = pg;
       app = startApp({
-        log: pino({ level: "silent" }),
+        deps: {
+          log: pino({ level: "silent" }),
+          pg,
+        },
         port: 0,
         onUp() {
           resolve();
@@ -28,9 +35,12 @@ beforeAll(
 
 afterAll(
   (): Promise<void> =>
-    new Promise((resolve) => {
+    new Promise(async (resolve) => {
       onShutdownComplete = resolve;
       app?.shutdown();
+      app = null;
+      await pgClose?.close();
+      pgClose = null;
     })
 );
 

@@ -7,6 +7,7 @@ source "$(dirname "$0")/pg.inc.sh"
 
 trap 'docker kill pg' EXIT
 
+printf 'Starting Postgres container...\n'
 docker run \
     -p $PGPORT:5432 \
     --tmpfs /var/lib/pg/data \
@@ -27,6 +28,7 @@ docker run \
 # connections isn't good enough — it might be about to shutdown before
 # starting again. We resort to log scraping.
 # https://github.com/docker-library/postgres/issues/146
+printf 'Waiting for Postgres to accept connections...\n'
 docker logs -f --since 1m pg 2>&1 |
     (perl -e '
         while (<>) {
@@ -37,6 +39,7 @@ docker logs -f --since 1m pg 2>&1 |
         }
     ' && printf 'log something\n' >/dev/tcp/localhost/$PGPORT)
 
+printf 'Running migrations...\n'
 docker run \
     -v "$PWD"/migrations:/migrations \
     --network host \
@@ -47,4 +50,5 @@ docker run \
         -database postgres://$PGUSER:$PGPASSWORD@localhost:$PGPORT/$PGDATABASE?sslmode=disable \
         up
 
+printf 'Postgres is ready\n'
 "${@:-$SHELL}"
