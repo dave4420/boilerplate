@@ -35,7 +35,7 @@ export const startApp = (params: AppParams): App => {
 
   routes.get("/health-check", healthCheckEndpoint);
 
-  routes.use("/my-api", myApiRoutes(log));
+  routes.use("/my-api", myApiRoutes(params.deps));
 
   let port: number = 0;
   const server = routes.listen(params.port, () => {
