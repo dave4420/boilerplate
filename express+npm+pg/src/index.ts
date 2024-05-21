@@ -1,7 +1,10 @@
 import pino from "pino";
+import { pgPool } from "./pg";
 import { startApp } from "./app";
 
 const log = pino({ level: process.env.LOG_LEVEL ?? "info" });
+
+const pg = pgPool();
 
 const getPort = (): number => {
   const port = process.env.PORT;
@@ -16,6 +19,7 @@ const port = getPort();
 const app = startApp({
   deps: {
     log,
+    pg,
   },
   port,
   onUp() {
@@ -27,8 +31,9 @@ const app = startApp({
 });
 
 ["SIGTERM", "SIGINT"].forEach((signal) => {
-  process.on(signal, () => {
+  process.on(signal, async () => {
     log.info(`${signal} received: closing server`);
     app.shutdown();
+    await pg.close();
   });
 });

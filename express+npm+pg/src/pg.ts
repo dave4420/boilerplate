@@ -7,7 +7,7 @@ export interface DatabasePool {
   ): Promise<R>;
 }
 
-export const pgPool = async (): Promise<DatabasePool & DatabaseCloser> => {
+export const pgPool = (): DatabasePool & DatabaseCloser => {
   throw Error("DAVE");
 };
 
