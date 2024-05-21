@@ -80,7 +80,7 @@ const pg = (db: Client): DatabaseConnection => {
   };
 };
 
-export const withPg = async <R>( // DAVE: rm?
+export const withPg = async <R>( // used only by tests
   continuation: (db: DatabaseConnection) => Promise<R>
 ): Promise<R> => {
   const client = new Client();
