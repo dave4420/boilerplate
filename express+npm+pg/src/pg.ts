@@ -1,15 +1,27 @@
 import { Client } from "pg";
 import { Thing } from "./domain";
 
-export interface Database {
-  close(): Promise<void>;
+export interface DatabasePool {
+  withConnection<R>(
+    continuation: (connection: DatabaseConnection) => Promise<R>
+  ): Promise<R>;
+}
 
+export const pgPool = async (): Promise<DatabasePool & DatabaseCloser> => {
+  throw Error("DAVE");
+};
+
+export interface DatabaseCloser {
+  close(): Promise<void>;
+}
+
+export interface DatabaseConnection {
   saveThing(thing: Thing): Promise<void>;
   getThing(thingId: Thing.Id): Promise<[Thing] | []>;
   deleteThing(thingId: Thing.Id): Promise<void>;
 }
 
-export const pg = async (): Promise<Database> => {
+export const pg = async (): Promise<DatabaseConnection & DatabaseCloser> => {
   const db = new Client();
   await db.connect();
 
@@ -61,8 +73,8 @@ export const pg = async (): Promise<Database> => {
   };
 };
 
-export const withPg = async <R>(
-  continuation: (db: Database) => Promise<R>
+export const withPg = async <R>( // DAVE: rm?
+  continuation: (db: DatabaseConnection) => Promise<R>
 ): Promise<R> => {
   const db = await pg();
   try {
