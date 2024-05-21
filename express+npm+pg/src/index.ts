@@ -14,7 +14,9 @@ const getPort = (): number => {
 const port = getPort();
 
 const app = startApp({
-  log,
+  deps: {
+    log,
+  },
   port,
   onUp() {
     log.info(`Server is running at http://localhost:${port}`);

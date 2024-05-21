@@ -10,7 +10,9 @@ beforeAll(
   (): Promise<void> =>
     new Promise((resolve) => {
       app = startApp({
-        log: pino({ level: "silent" }),
+        deps: {
+          log: pino({ level: "silent" }),
+        },
         port: 0,
         onUp() {
           resolve();
