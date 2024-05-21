@@ -3,8 +3,10 @@ import { pgPool } from "./pg";
 import { startApp } from "./app";
 
 const log = pino({ level: process.env.LOG_LEVEL ?? "info" });
+log.debug("Logging is up");
 
 const pg = pgPool();
+log.debug("Postgres pool is up");
 
 const getPort = (): number => {
   const port = process.env.PORT;
