@@ -2,11 +2,8 @@ import express from "express";
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import * as schema from "../gen/openapi/my";
-import { withPg } from "../pg";
 import { Thing } from "../domain";
 import { Dependencies } from "../dependencies";
-
-// DAVE: use connection pool instead of withPg() directly
 
 const sendError = (status: number, message: string, res: Response) => {
   // DAVE: persuade orval to generate zod for this
@@ -26,15 +23,16 @@ const getThing = (deps: Dependencies) =>
       sendError(400, "thing not found", res);
       return;
     }
-    await withPg(async (db) => {
+    const fields = await deps.pg.withConnection(async (db) => {
       const things = await db.getThing(thingId);
       if (things.length === 0) {
         sendError(404, "thing not found", res);
         return;
       }
       const { thingId: _ignore, ...fields } = things[0];
-      res.json(schema.getThingResponse.parse(fields));
+      return fields;
     });
+    res.json(schema.getThingResponse.parse(fields));
   });
 
 const putThing = (deps: Dependencies) =>
@@ -55,10 +53,10 @@ const putThing = (deps: Dependencies) =>
       sendError(400, "thing not found", res);
       return;
     }
-    await withPg(async (db) => {
+    await deps.pg.withConnection(async (db) => {
       await db.saveThing({ ...parsedBody.data, thingId });
-      res.status(204).end();
     });
+    res.status(204).end();
   });
 
 const deleteThing = (deps: Dependencies) =>
@@ -74,10 +72,10 @@ const deleteThing = (deps: Dependencies) =>
       sendError(400, "thing not found", res);
       return;
     }
-    await withPg(async (db) => {
+    await deps.pg.withConnection(async (db) => {
       await db.deleteThing(thingId);
-      res.status(204).end();
     });
+    res.status(204).end();
   });
 
 export const myApiRoutes = (deps: Dependencies): express.Router => {
