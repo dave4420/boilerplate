@@ -1,4 +1,5 @@
 import { Client } from "pg";
+import Pool from "pg-pool";
 import { Thing } from "./domain";
 
 export interface DatabasePool {
@@ -8,7 +9,18 @@ export interface DatabasePool {
 }
 
 export const pgPool = (): DatabasePool & DatabaseCloser => {
-  throw Error("DAVE");
+  const pool = new Pool();
+  return {
+    withConnection: async (continuation) => {
+      const client = await pool.connect();
+      try {
+        return await continuation(pg(client));
+      } finally {
+        await client.release();
+      }
+    },
+    close: async () => await pool.end(),
+  };
 };
 
 export interface DatabaseCloser {
@@ -21,13 +33,8 @@ export interface DatabaseConnection {
   deleteThing(thingId: Thing.Id): Promise<void>;
 }
 
-export const pg = async (): Promise<DatabaseConnection & DatabaseCloser> => {
-  const db = new Client();
-  await db.connect();
-
+const pg = (db: Client): DatabaseConnection => {
   return {
-    close: async () => await db.end(),
-
     saveThing: async (thing) => {
       await db.query({
         text: `
@@ -76,10 +83,12 @@ export const pg = async (): Promise<DatabaseConnection & DatabaseCloser> => {
 export const withPg = async <R>( // DAVE: rm?
   continuation: (db: DatabaseConnection) => Promise<R>
 ): Promise<R> => {
-  const db = await pg();
+  const client = new Client();
+  await client.connect();
+  const db = await pg(client);
   try {
     return await continuation(db);
   } finally {
-    await db.close();
+    await client.end();
   }
 };
