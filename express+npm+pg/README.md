@@ -46,3 +46,10 @@ Using:
 - improve API server bindings, whether with orval or something else
 - restart dev server / rerun tests when the Postgres schema changes
 - add PR check for Postgres migrations being added out of order
+
+## Out of scope
+
+- Authentication — if it’s something standard, then better for the API
+  gateway to perform authentication
+- TLS — I’d expect this to be provided by an API gateway or a load
+  balancer
