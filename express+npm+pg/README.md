@@ -3,10 +3,6 @@
 Boilerplate for a REST API server, using Typescript and Express, with a
 dedicated Postgres database.
 
-I’ve never actually used Express professionally — I’ve built REST APIs
-in Typescript using serverless (Lambda and API Gateway under the hood),
-and serverful REST APIs in other languages (e.g. in Scala using Akka HTTP).
-
 Using:
 
 - Node
@@ -22,10 +18,15 @@ Using:
 
 [pgroll]: https://github.com/xataio/pgroll
 
+I’ve never actually used Express professionally — I’ve built REST APIs
+in Typescript using serverless (Lambda and API Gateway under the hood),
+and serverful REST APIs in other languages (e.g. in Scala using Akka HTTP).
+
 ## Prerequisites
 
 - NVM installed and configured to pay attention to `.nvmrc`
 - Docker installed
+- bash/etc installed
 
 ## Commands
 
