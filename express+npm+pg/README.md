@@ -32,7 +32,7 @@ and serverful REST APIs in other languages (e.g. in Scala using Akka HTTP).
 
 - `npm ci` — install dependencies (sandboxed), produce generated code
 - `npm run dev` — run the server locally, using a temporary in-memory Postgres
-- `npm test` — run tests
+- `npm test` — run tests and lint
 - `npm run test:watch` — run tests, rerun them when the code / tests /
   API schema is changed
 - `npm run typecheck:watch` — typecheck code (including tests),
