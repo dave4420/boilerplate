@@ -41,7 +41,7 @@ shouldn’t need changing much.
 ## Out of scope
 
 - styling; options include
-  - external CSS (e.g. using sass)
+  - external CSS (e.g. built from sass)
   - inline CSS
   - dynamically building a stylesheet using elm-css
   - using elm-ui instead of HTML and CSS

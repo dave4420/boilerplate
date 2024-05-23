@@ -20,7 +20,9 @@ Using:
 
 I’ve never actually used Express professionally — I’ve built REST APIs
 in Typescript using serverless (Lambda and API Gateway under the hood),
-and serverful REST APIs in other languages (e.g. in Scala using Akka HTTP).
+and serverful REST APIs in other languages (e.g. in Scala using Akka HTTP),
+but this might be a little off with the Express-specific parts.
+Hopefully not though.
 
 ## Prerequisites
 
