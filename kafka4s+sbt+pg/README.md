@@ -15,11 +15,14 @@ upgrade it to 3.2 later on.
 
 ## Commands
 
-- DAVE
+- `sbt compile` — build code
+- `sbt test` — build and run tests
+- `sbt assembly` — build fat jar
 
 ## TODO
 
 - everything
+- build docker image for deployment
 
 ## Out of scope
 
