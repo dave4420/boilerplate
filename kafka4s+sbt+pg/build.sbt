@@ -15,4 +15,8 @@ lazy val root = (project in file("."))
     ),
   )
   
+ThisBuild / assemblyMergeStrategy := {
+  case _ => MergeStrategy.first
+}
+
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
