@@ -1,7 +1,10 @@
 package example
 
+import com.typesafe.scalalogging.Logger
+
 object Hello extends Greeting with App {
-  println(greeting)
+  val logger = Logger("DAVE")
+  logger.info(greeting)
 }
 
 trait Greeting {
