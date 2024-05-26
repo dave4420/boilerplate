@@ -8,6 +8,7 @@ ThisBuild / organizationName := "example"
 lazy val root = (project in file("."))
   .settings(
     name := "boilerplate",
+    assembly / mainClass := Some("example.Hello"),
     libraryDependencies ++= Seq(
       munit % Test,
       scalaLogging,
@@ -18,5 +19,7 @@ lazy val root = (project in file("."))
 ThisBuild / assemblyMergeStrategy := {
   case _ => MergeStrategy.first
 }
+
+// ThisBuild / assembly / mainClass := Some("example.Hello")
 
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
