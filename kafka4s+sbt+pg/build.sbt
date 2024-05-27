@@ -13,9 +13,6 @@ lazy val root = (project in file("."))
       munit % Test,
       scalaLogging,
       logback,
-      logbackJson,
-      logbackJackson,
-      jacksonDatabind,
     ),
   )
 
@@ -25,6 +22,8 @@ ThisBuild / assemblyMergeStrategy := {
   case PathList("META-INF", "MANIFEST.MF") =>
     MergeStrategy.discard
   case PathList("META-INF", rest @ _*) =>
+    MergeStrategy.first
+  case PathList("module-info.class") =>
     MergeStrategy.first
   case x => MergeStrategy.deduplicate
 }
