@@ -18,17 +18,12 @@ lazy val root = (project in file("."))
 
 ThisBuild / assemblyMergeStrategy := {
   case PathList("META-INF", "services", rest @ _*) =>
-    println(s"Merging META-INF/services $rest")
     MergeStrategy.filterDistinctLines
   case PathList("META-INF", "MANIFEST.MF") =>
-    println(s"Merging META-INF/MANIFEST.MF")
     MergeStrategy.discard
   case PathList("META-INF", rest @ _*) =>
-    println(s"Merging META-INF $rest")
     MergeStrategy.first
   case x => MergeStrategy.deduplicate
 }
-
-// ThisBuild / assembly / mainClass := Some("example.Hello")
 
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
