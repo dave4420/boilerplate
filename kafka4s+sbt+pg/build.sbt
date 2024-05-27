@@ -15,9 +15,10 @@ lazy val root = (project in file("."))
       logback,
     ),
   )
-  
+
 ThisBuild / assemblyMergeStrategy := {
-  case _ => MergeStrategy.first
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.deduplicate
 }
 
 // ThisBuild / assembly / mainClass := Some("example.Hello")
