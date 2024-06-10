@@ -1,0 +1,5 @@
+<configuration>
+    <root level="OFF">
+        <!-- No appenders are defined, so no logs will be processed or written -->
+    </root>
+</configuration>
