@@ -53,3 +53,8 @@ jobs:
     needs: gather
     if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'express+npm+pg') }}"
     uses: ./.github/workflows/ci-express+npm+pg.yaml
+
+  kafka4s_sbt_pg:
+    needs: gather
+    if: "${{ contains(fromJson(needs.gather.outputs.workflows), 'kafka4s+sbt+pg') }}"
+    uses: ./.github/workflows/ci-kafka4s+sbt+pg.yaml

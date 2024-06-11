@@ -1,0 +1,29 @@
+---
+name: "kafka4s+sbt+pg PR checks"
+
+
+"on":
+  workflow_call:
+
+jobs:
+  checks:
+    name: Run checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            kafka4s+sbt+pg
+      - name: Read SBT version
+        run: |
+          sed -nE 's,^\s*sbt\.version\s*=\s*([.0-9]+)\s*$,sbtversion=\1,p' \
+            <kafka4s+sbt+pg/project/build.properties \
+            >>"$GITHUB_OUTPUT"
+      - name: Setup SBT
+        uses: Jtalk/setup-sbt@v2
+        with:
+          version: ${{ steps.workflows.outputs.sbtversion }}
+      - name: Check SBT
+        run: |
+          (cd kafka4s+sbt+pg && sbt test)
