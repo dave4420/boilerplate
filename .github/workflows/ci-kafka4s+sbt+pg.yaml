@@ -16,6 +16,7 @@ jobs:
           sparse-checkout: |
             kafka4s+sbt+pg
       - name: Read SBT version
+        id: discovery
         run: |
           sed -nE 's,^\s*sbt\.version\s*=\s*([.0-9]+)\s*$,sbtversion=\1,p' \
             <kafka4s+sbt+pg/project/build.properties \
@@ -23,7 +24,7 @@ jobs:
       - name: Setup SBT
         uses: Jtalk/setup-sbt@v2
         with:
-          version: ${{ steps.workflows.outputs.sbtversion }}
+          version: ${{ steps.discovery.outputs.sbtversion }}
       - name: Check SBT
         run: |
           (cd kafka4s+sbt+pg && sbt test)
